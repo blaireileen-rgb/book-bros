@@ -1131,10 +1131,11 @@
       <div id="tab-members" class="admin-panel">
         <div class="admin-card">
           <h4>Add New Member</h4>
-          <p class="admin-card-sub">They'll appear in the members list and be included in group emails and calendar invites.</p>
+          <p class="admin-card-sub">Add an email, a phone number, or both. Emails get group emails and calendar invites; phone numbers get group texts.</p>
           <div class="form-row" style="margin-bottom:16px;">
             <div class="fg"><label class="afl">Full Name</label><input class="afi" type="text" id="new-member-name" placeholder="Jane Smith" /></div>
-            <div class="fg"><label class="afl">Email Address</label><input class="afi" type="email" id="new-member-email" placeholder="jane@example.com" /></div>
+            <div class="fg"><label class="afl">Email Address (optional)</label><input class="afi" type="email" id="new-member-email" placeholder="mike@example.com" /></div>
+            <div class="fg"><label class="afl">Phone Number (optional)</label><input class="afi" type="tel" id="new-member-phone" placeholder="(631) 555-0123" /></div>
           </div>
           <button class="btn-act btn-act-blue" onclick="addMember()">+ Add Member</button>
         </div>
@@ -1144,7 +1145,7 @@
           <p class="admin-card-sub">Remove anyone who wants to unsubscribe or step back.</p>
           <div style="overflow-x:auto;">
             <table class="member-table" id="admin-member-table">
-              <thead><tr><th>Name</th><th>Email</th><th>Added</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Name</th><th>Email / Phone</th><th>Added</th><th>Actions</th></tr></thead>
               <tbody id="admin-member-tbody"></tbody>
             </table>
           </div>
@@ -1163,6 +1164,16 @@
             <button class="btn-act btn-act-outline" onclick="copyAllEmails()">📋 Copy All Emails</button>
           </div>
           <div class="fg"><label class="afl">All member emails (for manual use)</label><textarea class="afi" id="email-list-display" style="min-height:80px;font-size:0.78rem;" readonly></textarea></div>
+        </div>
+        <div class="admin-card">
+          <h4>Text Everyone</h4>
+          <p class="admin-card-sub">For members you only have a phone number for. On an iPhone, the group text button opens Messages with everyone added.</p>
+          <div class="action-row" style="margin-bottom:24px;">
+            <button class="btn-act btn-act-blue" onclick="textAll('reminder')">⏰ Text Meeting Reminder</button>
+            <button class="btn-act btn-act-blue" onclick="textAll('blank')">💬 Blank Group Text</button>
+            <button class="btn-act btn-act-outline" onclick="copyAllPhones()">📋 Copy All Numbers</button>
+          </div>
+          <div class="fg"><label class="afl">All member phone numbers</label><textarea class="afi" id="phone-list-display" style="min-height:80px;font-size:0.78rem;" readonly></textarea></div>
         </div>
       </div>
 
@@ -1397,7 +1408,11 @@
       </div>
       <div class="fg" style="margin-bottom:0;">
         <label class="afl">Email Address</label>
-        <input class="afi" type="email" id="apm-email" placeholder="e.g. jane@example.com" />
+        <input class="afi" type="email" id="apm-email" placeholder="e.g. mike@example.com" />
+      </div>
+      <div class="fg" style="margin-bottom:0;margin-top:12px;">
+        <label class="afl">Phone Number</label>
+        <input class="afi" type="tel" id="apm-phone" placeholder="e.g. (631) 555-0123" />
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,.1);margin:18px 0 14px;"></div>
@@ -1505,6 +1520,17 @@
 const SUPABASE_URL  = 'https://ztqzdubhqnopzdbrtblb.supabase.co';        // see SETUP.md step 2
 const SUPABASE_KEY  = 'sb_publishable_jQ-pS1FfBCoH9sxTx3jULA_qQvTDUpB';    // the "anon" key — safe to be public
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── Phone-only members ──
+// The site identifies every member by their "email" (RSVPs, scores, votes).
+// Members added with only a phone number get a stand-in ID like
+// "6315550123@phone" so all of that still works; it's never emailed.
+const PHONE_ID_SUFFIX = '@phone';
+function phoneDigits(p) { const d = String(p || '').replace(/\D/g, ''); return d.length === 11 && d[0] === '1' ? d.slice(1) : d; }
+function phoneId(p) { return phoneDigits(p) + PHONE_ID_SUFFIX; }
+function isPhoneId(e) { return String(e || '').toLowerCase().endsWith(PHONE_ID_SUFFIX); }
+function realEmail(m) { return m && m.email && !isPhoneId(m.email) ? m.email : ''; }
+function prettyPhone(p) { const d = phoneDigits(p); return d.length === 10 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : String(p || ''); }
 
 async function loadProfilesFromSupabase() {
   try {
@@ -2116,6 +2142,7 @@ async function loadMembersFromSupabase() {
           id:      row.id,
           name:    row.name,
           email:   row.email,
+          phone:   row.phone || '',
           joined:  row.joined || '',
           profile: (existing && existing.profile) || {...EMPTY_PROFILE},
         };
@@ -2139,7 +2166,7 @@ async function loadMembersFromSupabase() {
 
 async function migrateMembersToSupabase() {
   try {
-    const rows = DATA.members.map(m => ({ name: m.name, email: m.email.toLowerCase(), joined: m.joined || '' }));
+    const rows = DATA.members.map(m => ({ name: m.name, email: m.email.toLowerCase(), phone: m.phone || '', joined: m.joined || '' }));
     if (!rows.length) return;
     // upsert + ignoreDuplicates so two simultaneous first-loads seeding the same
     // empty table don't collide on the email unique constraint and abort the batch
@@ -2157,9 +2184,9 @@ async function migrateMembersToSupabase() {
   }
 }
 
-async function insertMemberToSupabase(name, email, joined) {
+async function insertMemberToSupabase(name, email, joined, phone) {
   try {
-    const { data, error } = await db.from('members').insert({ name, email: email.toLowerCase(), joined }).select().single();
+    const { data, error } = await db.from('members').insert({ name, email: email.toLowerCase(), phone: phone || '', joined }).select().single();
     if (error) throw error;
     return data;
   } catch(e) {
@@ -2177,10 +2204,10 @@ async function deleteMemberFromSupabase(email) {
   }
 }
 
-async function updateMemberInSupabase(oldEmail, name, newEmail) {
+async function updateMemberInSupabase(oldEmail, name, newEmail, phone) {
   try {
     const { error } = await db.from('members')
-      .update({ name, email: newEmail.toLowerCase() })
+      .update({ name, email: newEmail.toLowerCase(), phone: phone || '' })
       .eq('email', oldEmail.toLowerCase());
     if (error) throw error;
   } catch(e) {
@@ -2556,7 +2583,7 @@ function renderOrgOverview() {
     <div class="org-kpi"><b>${scores}</b><span>Scores given</span></div>
     <div class="org-kpi"><b>${MX.recs.length}</b><span>Member picks</span></div>`;
   const noReply = members.filter(x => key && getRsvp(x.email) === 'p');
-  const bcc = noReply.map(x => x.email).join(',');
+  const bcc = noReply.map(realEmail).filter(Boolean).join(',');
   const nudge = `mailto:?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent('Are you coming? ' + (m.book || 'Book club'))}&body=${encodeURIComponent(`Hi! Quick reminder to RSVP for ${m.date || 'our next meeting'}${m.location ? ' at ' + m.location : ''}.
 
 Tap Going / Maybe / Can't make it here: https://www.huntingtonbookbros.com/#members
@@ -2729,7 +2756,8 @@ function openAdminProfileModal(idx) {
   document.getElementById('apm-idx').value         = idx;
   document.getElementById('apm-title').textContent = `Edit Profile — ${m.name}`;
   document.getElementById('apm-name').value        = m.name    || '';
-  document.getElementById('apm-email').value       = m.email   || '';
+  document.getElementById('apm-email').value       = realEmail(m);
+  document.getElementById('apm-phone').value       = m.phone ? prettyPhone(m.phone) : '';
   document.getElementById('apm-photo').value       = p.photo   || '';
   document.getElementById('apm-job').value         = p.job     || '';
   document.getElementById('apm-family').value      = p.family  || '';
@@ -2905,7 +2933,14 @@ async function saveAdminProfile() {
   if (isNaN(idx) || !DATA.members[idx]) return;
   const oldEmail = DATA.members[idx].email;
   const newName  = document.getElementById('apm-name').value.trim();
-  const newEmail = document.getElementById('apm-email').value.trim();
+  const typedEmail = document.getElementById('apm-email').value.trim();
+  const phoneRaw   = document.getElementById('apm-phone').value.trim();
+  const oldPhone   = DATA.members[idx].phone || '';
+  DATA.members[idx].phone = phoneRaw ? prettyPhone(phoneRaw) : '';
+  // Keep their ID unless they now have a real email (or only a phone that changed)
+  let newEmail = '';
+  if (typedEmail && typedEmail.toLowerCase() !== oldEmail.toLowerCase()) newEmail = typedEmail;
+  else if (!typedEmail && isPhoneId(oldEmail) && phoneDigits(phoneRaw).length >= 10 && phoneId(phoneRaw) !== oldEmail) newEmail = phoneId(phoneRaw);
   if (newName)  DATA.members[idx].name  = newName;
   if (newEmail) DATA.members[idx].email = newEmail;
   const profile = {
@@ -2922,8 +2957,8 @@ async function saveAdminProfile() {
   const emailToSave = newEmail || oldEmail;
   toast('Saving…');
   await saveProfileToSupabase(emailToSave, profile);
-  if (newName || newEmail) {
-    await updateMemberInSupabase(oldEmail, DATA.members[idx].name, DATA.members[idx].email);
+  if (newName || newEmail || DATA.members[idx].phone !== oldPhone) {
+    await updateMemberInSupabase(oldEmail, DATA.members[idx].name, DATA.members[idx].email, DATA.members[idx].phone);
   }
   renderPublicMembers();
   renderAdminMembers();
@@ -2941,7 +2976,7 @@ function renderAdminMembers() {
     const hasProfile = m.profile && (m.profile.job || m.profile.family || m.profile.how_heard || m.profile.fav_book || m.profile.fav_genre || m.profile.photo);
     return `<tr>
       <td>${m.name}</td>
-      <td style="color:rgba(255,255,255,.5);font-size:0.82rem;">${m.email}</td>
+      <td style="color:rgba(255,255,255,.5);font-size:0.82rem;">${[realEmail(m), m.phone ? prettyPhone(m.phone) : ''].filter(Boolean).join('<br>') || '—'}</td>
       <td style="color:rgba(255,255,255,.35);font-size:0.78rem;">${m.joined||'—'}</td>
       <td style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="btn-act btn-act-outline btn-act-sm" onclick="openAdminProfileModal(${i})" title="Edit profile">✏️ ${hasProfile ? 'Edit' : 'Add'} Profile</button>
@@ -2955,19 +2990,25 @@ function renderAdminMembers() {
 
 async function addMember() {
   const name  = document.getElementById('new-member-name').value.trim();
-  const email = document.getElementById('new-member-email').value.trim();
-  if (!name || !email) { toast('Please enter a name and email.'); return; }
+  const typedEmail = document.getElementById('new-member-email').value.trim();
+  const phoneRaw   = document.getElementById('new-member-phone').value.trim();
+  const phone      = phoneRaw ? prettyPhone(phoneRaw) : '';
+  if (!name) { toast('Please enter a name.'); return; }
+  if (!typedEmail && phoneDigits(phoneRaw).length < 10) { toast('Please enter an email or a 10-digit phone number.'); return; }
+  const email = typedEmail || phoneId(phoneRaw);
+  if (DATA.members.some(m => m.email.toLowerCase() === email.toLowerCase())) { toast(`${name} is already on the list.`); return; }
   const now = new Date().toLocaleString('en-US',{month:'short',year:'numeric'});
-  const newMember = { name, email, joined: now, profile:{...EMPTY_PROFILE} };
+  const newMember = { name, email, phone, joined: now, profile:{...EMPTY_PROFILE} };
   DATA.members.push(newMember);
   saveData();
   document.getElementById('new-member-name').value  = '';
   document.getElementById('new-member-email').value = '';
+  document.getElementById('new-member-phone').value = '';
   renderAdminMembers();
   renderPublicMembers();
   renderHero();
   toast(`✓ ${name} added to the club!`);
-  const row = await insertMemberToSupabase(name, email, now);
+  const row = await insertMemberToSupabase(name, email, now, phone);
   if (row) { newMember.id = row.id; saveData(); }
 }
 
@@ -2988,13 +3029,34 @@ async function removeMember(idx) {
 //  ADMIN: EMAILS
 // ════════════════════════════════════════════════════════════════
 function updateEmailList() {
-  const all = DATA.members.map(m=>m.email).join(', ');
+  const all = DATA.members.map(realEmail).filter(Boolean).join(', ');
   const el  = document.getElementById('email-list-display');
   if (el) el.value = all;
+  const ph  = document.getElementById('phone-list-display');
+  if (ph) ph.value = DATA.members.filter(m => m.phone).map(m => `${m.name}: ${prettyPhone(m.phone)}`).join('\n');
+}
+
+function textAll(type) {
+  const nums = DATA.members.filter(m => m.phone).map(m => '+1' + phoneDigits(m.phone));
+  if (!nums.length) { toast('No phone numbers yet. Add them under Members.'); return; }
+  const m = DATA.meeting;
+  const body = type === 'reminder'
+    ? `Book Bros reminder: ${m.book}${m.author ? ' by ' + m.author : ''}, ${m.date} at ${m.time}${m.location ? ', ' + m.location : ''}. RSVP at huntingtonbookbros.com`
+    : '';
+  window.location.href = `sms://open?addresses=${nums.join(',')}${body ? '&body=' + encodeURIComponent(body) : ''}`;
+}
+
+function copyAllPhones() {
+  const all = DATA.members.filter(m => m.phone).map(m => prettyPhone(m.phone)).join(', ');
+  if (!all) { toast('No phone numbers yet.'); return; }
+  navigator.clipboard.writeText(all).then(()=>toast('✓ All numbers copied!')).catch(()=>{
+    document.getElementById('phone-list-display').select();
+    toast('Select the numbers above and copy them.');
+  });
 }
 
 function emailAll(type) {
-  const bcc = DATA.members.map(m=>m.email).join(',');
+  const bcc = DATA.members.map(realEmail).filter(Boolean).join(',');
   const m   = DATA.meeting;
   let subject='', body='';
   if (type==='reminder') {
@@ -3011,7 +3073,7 @@ function emailAll(type) {
 }
 
 function copyAllEmails() {
-  const all = DATA.members.map(m=>m.email).join(', ');
+  const all = DATA.members.map(realEmail).filter(Boolean).join(', ');
   navigator.clipboard.writeText(all).then(()=>toast('✓ All emails copied to clipboard!')).catch(()=>{
     document.getElementById('email-list-display').select();
     toast('Select the text above and copy it.');
@@ -3049,7 +3111,7 @@ async function saveMeeting() {
 
 function sendCalendarInvite() {
   const m    = DATA.meeting;
-  const adds = DATA.members.map(mem=>`&add=${encodeURIComponent(mem.email)}`).join('');
+  const adds = DATA.members.filter(realEmail).map(mem=>`&add=${encodeURIComponent(mem.email)}`).join('');
   const title= encodeURIComponent(`Book Club: ${m.book} by ${m.author}`);
   const loc  = encodeURIComponent(m.location);
   const det  = encodeURIComponent(`Book Club meeting — ${m.book} by ${m.author}\n\nTime: ${m.time}\nLocation: ${m.location}`);
