@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Huntington Village Readers</title>
+  <title>Huntington Book Bros</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");</script> <!-- see SETUP.md step 4 -->
   <style>
     :root {
-      --pink:      #2E4A6B;  /* slate navy (primary) */
-      --pink-dk:   #1F3550;
-      --pink-lt:   #E4EDF6;
-      --coral:     #C98A62;  /* apricot (accent) */
-      --coral-lt:  #F8EBE2;
+      --pink:      #2F5D3A;  /* forest green (primary) */
+      --pink-dk:   #1F4228;
+      --pink-lt:   #E2ECE3;
+      --coral:     #5E8C4A;  /* moss green (accent) */
+      --coral-lt:  #EAF1E5;
       --green:     #1E7A4A;
       --green-lt:  #EDFBF4;
       --amber:     #C87830;
       --amber-lt:  #FEF8EC;
-      --cream:     #F5F8FB;
-      --blush:     #EAF1F7;
+      --cream:     #F1F2EE;
+      --blush:     #E6EAE3;
       --warm-white:#FFFFFF;
-      --dark:      #1A2A40;
-      --text:      #2A3646;
-      --muted:     #6C7A8B;
-      --border:    #DCE5EE;
-      --admin-bg:  #0F1923;
-      --admin-acc: #3B8ECA;
+      --dark:      #121512;
+      --text:      #1F2520;
+      --muted:     #5D675F;
+      --border:    #D7DDD5;
+      --admin-bg:  #0D110E;
+      --admin-acc: #4FA66A;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
@@ -38,7 +38,7 @@
     /* ── NAV ── */
     nav { background:var(--warm-white); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:200; }
     .nav-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 32px; }
-    .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--dark); text-decoration:none; padding:18px 0; }
+    .nav-logo { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.3rem; color:var(--dark); text-decoration:none; padding:18px 0; }
     .nav-logo span { color:var(--pink); font-style:italic; }
     nav ul { display:flex; list-style:none; gap:2px; }
     nav ul li a { display:block; color:var(--muted); text-decoration:none; padding:8px 14px; font-size:0.82rem; font-weight:500; border-radius:6px; transition:all .15s; }
@@ -49,7 +49,7 @@
     .hero-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
     .hero-eyebrow { display:inline-flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--pink); margin-bottom:18px; }
     .hero-eyebrow::before { content:''; width:20px; height:1.5px; background:var(--pink); }
-    .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.8rem,4.5vw,4.2rem); color:var(--dark); line-height:1.05; letter-spacing:-.02em; margin-bottom:18px; }
+    .hero h1 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:clamp(2.8rem,4.5vw,4.2rem); color:var(--dark); line-height:1.05; letter-spacing:-.02em; margin-bottom:18px; }
     .hero h1 em { color:var(--pink); font-style:italic; }
     .hero-desc { color:var(--muted); font-size:1rem; max-width:420px; margin-bottom:36px; line-height:1.7; }
     .hero-pills { display:flex; gap:10px; flex-wrap:wrap; }
@@ -59,10 +59,10 @@
     .hero-book-card { background:var(--warm-white); border:1px solid var(--border); border-radius:20px; padding:28px; box-shadow:0 8px 40px rgba(28,20,16,.09); width:100%; display:flex; gap:24px; align-items:flex-start; }
     .cover-img-wrap { flex-shrink:0; width:110px; }
     .cover-img-wrap img { width:110px; border-radius:6px; box-shadow:4px 6px 20px rgba(28,20,16,.2); display:block; }
-    .cover-fallback { width:110px; height:165px; border-radius:6px; background:linear-gradient(160deg,var(--pink) 0%,var(--coral) 100%); display:none; align-items:center; justify-content:center; color:#fff; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; text-align:center; padding:12px; line-height:1.4; box-shadow:4px 6px 20px rgba(28,20,16,.2); }
+    .cover-fallback { width:110px; height:165px; border-radius:6px; background:linear-gradient(160deg,var(--pink) 0%,var(--coral) 100%); display:none; align-items:center; justify-content:center; color:#fff; font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:0.8rem; text-align:center; padding:12px; line-height:1.4; box-shadow:4px 6px 20px rgba(28,20,16,.2); }
     .hero-book-info { flex:1; min-width:0; }
     .hero-book-label { font-size:0.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--pink); margin-bottom:6px; }
-    .hero-book-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.3rem; color:var(--dark); line-height:1.2; margin-bottom:4px; }
+    .hero-book-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:1.3rem; color:var(--dark); line-height:1.2; margin-bottom:4px; }
     .hero-book-author { font-size:0.82rem; color:var(--muted); margin-bottom:16px; }
     .mdl-list { display:flex; flex-direction:column; gap:6px; }
     .mdl-item { display:flex; align-items:center; gap:8px; font-size:0.83rem; color:var(--text); }
@@ -79,14 +79,14 @@
     .section { padding:72px 0; }
     .section.tinted { background:var(--blush); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
     .section-head { margin-bottom:36px; }
-    .section-title { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--dark); letter-spacing:-.02em; margin-bottom:6px; }
+    .section-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:2rem; color:var(--dark); letter-spacing:-.02em; margin-bottom:6px; }
     .section-sub { font-size:0.9rem; color:var(--muted); }
     .section-rule { width:40px; height:2px; background:var(--pink); margin-top:10px; }
 
     /* ── STATS ── */
     .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:40px; }
     .stat-card { background:var(--warm-white); border:1px solid var(--border); border-radius:12px; padding:22px 20px; }
-    .stat-num { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:var(--pink); line-height:1; letter-spacing:-.02em; }
+    .stat-num { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:2.2rem; color:var(--pink); line-height:1; letter-spacing:-.02em; }
     .stat-lbl { font-size:0.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
 
     /* ── UPCOMING MEETINGS ── */
@@ -94,11 +94,11 @@
     .up-card { background:var(--warm-white); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; gap:14px; }
     .up-cover { width:100%; aspect-ratio:2/3; border-radius:8px; overflow:hidden; box-shadow:4px 6px 20px rgba(19,32,58,.15); }
     .up-cover img { width:100%; height:100%; object-fit:cover; display:block; }
-    .up-cover-tbd { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; background:linear-gradient(160deg,var(--pink) 0%,#3A5A85 55%,var(--coral) 100%); color:#fff; font-family:'Cormorant Garamond',serif; }
+    .up-cover-tbd { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; background:linear-gradient(160deg,var(--pink) 0%,#3A5A85 55%,var(--coral) 100%); color:#fff; font-family:'Zilla Slab',Rockwell,Georgia,serif; }
     .up-cover-tbd strong { font-size:2.4rem; font-weight:400; letter-spacing:.04em; line-height:1; }
     .up-cover-tbd span { font-family:'Inter',sans-serif; font-size:0.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; opacity:.75; }
     .up-date { font-size:0.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--pink); }
-    .up-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.08rem; color:var(--dark); line-height:1.25; }
+    .up-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:1.08rem; color:var(--dark); line-height:1.25; }
     .up-title.tbd { color:var(--muted); }
     .up-meta { font-size:0.78rem; color:var(--muted); line-height:1.5; }
     .up-empty { color:var(--muted); font-size:0.9rem; font-style:italic; }
@@ -119,7 +119,7 @@
     .sc-row.flash { background:var(--coral-lt); }
     .sc-info { flex:1; min-width:0; }
     .sc-tag { display:inline-block; font-size:0.58rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:var(--coral); padding:3px 8px; margin-bottom:6px; }
-    .sc-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:1.15rem; color:var(--dark); line-height:1.2; }
+    .sc-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-weight:500; font-size:1.15rem; color:var(--dark); line-height:1.2; }
     .sc-meta { font-size:0.72rem; color:var(--muted); margin-top:2px; }
     .sc-status { font-size:0.76rem; margin-top:4px; }
     .sc-mine { color:#1E7A4A; font-weight:600; }
@@ -146,23 +146,23 @@
     .book-swatch { width:3px; height:36px; border-radius:2px; flex-shrink:0; }
     .sw-high { background:linear-gradient(#1A7A4A,#5EBD8A); }
     .sw-mid  { background:linear-gradient(#C87830,#E8A860); }
-    .sw-low  { background:linear-gradient(var(--pink),#9DB0CC); }
+    .sw-low  { background:linear-gradient(var(--pink),#9DB59F); }
     .book-info { flex:1; min-width:0; }
-    .book-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1rem; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .book-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:1rem; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .book-meta { font-size:0.72rem; color:var(--muted); font-weight:500; }
     .book-score-col { display:flex; align-items:center; gap:12px; flex-shrink:0; }
     .score-bar-bg { width:80px; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
     .score-bar-fill { height:100%; border-radius:2px; }
     .sbf-high { background:linear-gradient(90deg,#1A7A4A,#5EBD8A); }
     .sbf-mid  { background:linear-gradient(90deg,#C87830,#E8A860); }
-    .sbf-low  { background:linear-gradient(90deg,var(--pink),#9DB0CC); }
+    .sbf-low  { background:linear-gradient(90deg,var(--pink),#9DB59F); }
     .score-val { font-size:0.9rem; font-weight:600; color:var(--text); width:30px; text-align:right; }
     .sw-none { background:var(--border); }
     .score-pending { font-size:0.72rem; font-weight:600; letter-spacing:.04em; color:var(--muted); background:var(--blush); border:1px solid var(--border); padding:3px 10px; border-radius:20px; white-space:nowrap; }
 
     /* ── WHATSAPP ── */
     .community-card { background:var(--warm-white); border:1px solid var(--border); border-radius:20px; padding:48px 40px; display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap; box-shadow:0 2px 20px rgba(28,20,16,.06); }
-    .community-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.7rem; color:var(--dark); margin-bottom:8px; letter-spacing:-.02em; }
+    .community-card h3 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.7rem; color:var(--dark); margin-bottom:8px; letter-spacing:-.02em; }
     .community-card p { color:var(--muted); font-size:0.95rem; }
     .wa-btn { display:inline-flex; align-items:center; gap:10px; background:#25D366; color:#fff; text-decoration:none; padding:14px 26px; border-radius:50px; font-size:0.9rem; font-weight:600; box-shadow:0 4px 20px rgba(37,211,102,.3); transition:transform .15s,box-shadow .15s; white-space:nowrap; }
     .wa-btn:hover { transform:translateY(-2px); box-shadow:0 6px 28px rgba(37,211,102,.4); }
@@ -172,7 +172,7 @@
     .gate-outer { display:flex; justify-content:center; padding:12px 0; }
     .gate-card { background:var(--warm-white); border:1px solid var(--border); border-radius:20px; padding:52px 44px; width:100%; max-width:460px; text-align:center; box-shadow:0 4px 28px rgba(28,20,16,.08); }
     .gate-icon { font-size:2.6rem; margin-bottom:16px; display:block; }
-    .gate-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--dark); margin-bottom:8px; }
+    .gate-card h3 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.6rem; color:var(--dark); margin-bottom:8px; }
     .gate-card p { font-size:0.88rem; color:var(--muted); margin-bottom:28px; }
     .gate-form { display:flex; gap:8px; }
     .gate-input { flex:1; font-family:'Inter',sans-serif; padding:11px 16px; border:1.5px solid var(--border); border-radius:10px; font-size:0.9rem; background:var(--cream); color:var(--text); outline:none; transition:border-color .2s; }
@@ -186,7 +186,7 @@
     .members-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; margin-bottom:44px; }
     .member-card { background:var(--warm-white); border:1px solid var(--border); border-radius:16px; padding:22px 14px; text-align:center; transition:transform .14s,box-shadow .14s; }
     .member-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(28,20,16,.1); }
-    .m-avatar { width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:#fff; margin:0 auto 10px; }
+    .m-avatar { width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.15rem; color:#fff; margin:0 auto 10px; }
     .m-name { font-size:0.85rem; font-weight:500; color:var(--dark); line-height:1.3; }
     .m-status { display:inline-block; margin-top:6px; font-size:0.67rem; font-weight:600; padding:3px 9px; border-radius:6px; }
     .ms-g { background:#F0FBF6; color:#1A7A4A; }
@@ -196,7 +196,7 @@
 
     /* ── FORMS ── */
     .form-card { background:var(--warm-white); border:1px solid var(--border); border-radius:16px; padding:32px; margin-bottom:20px; }
-    .form-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.35rem; color:var(--dark); margin-bottom:4px; }
+    .form-card h3 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.35rem; color:var(--dark); margin-bottom:4px; }
     .form-sub { font-size:0.84rem; color:var(--muted); margin-bottom:24px; }
     .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     .form-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
@@ -218,12 +218,12 @@
 
     /* ── RECOMMENDATIONS ── */
     .recs-section { margin-bottom:24px; }
-    .recs-section h3 { font-family:'Cormorant Garamond',serif; font-size:1.35rem; color:var(--dark); margin-bottom:4px; }
+    .recs-section h3 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.35rem; color:var(--dark); margin-bottom:4px; }
     .recs-sub { font-size:0.84rem; color:var(--muted); margin-bottom:20px; }
     .recs-list { display:flex; flex-direction:column; gap:12px; }
     .rec-card { background:var(--warm-white); border:1px solid var(--border); border-radius:14px; padding:18px 20px; }
     .rec-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:6px; }
-    .rec-book-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.05rem; color:var(--dark); }
+    .rec-book-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:1.05rem; color:var(--dark); }
     .rec-book-author { font-size:0.78rem; color:var(--muted); margin-top:1px; }
     .rec-date { font-size:0.7rem; color:var(--muted); white-space:nowrap; flex-shrink:0; }
     .rec-pitch { font-size:0.85rem; color:var(--text); line-height:1.55; margin-top:8px; font-style:italic; }
@@ -241,20 +241,20 @@
     #admin-area { background:var(--admin-bg); }
     .admin-inner { max-width:1100px; margin:0 auto; padding:72px 32px; }
     .admin-header { margin-bottom:48px; }
-    .admin-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(59,142,202,.15); border:1px solid rgba(59,142,202,.3); color:var(--admin-acc); font-size:0.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:14px; }
-    .admin-title { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:#fff; letter-spacing:-.02em; margin-bottom:8px; }
+    .admin-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(79,166,106,.15); border:1px solid rgba(79,166,106,.3); color:var(--admin-acc); font-size:0.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:14px; }
+    .admin-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:2.2rem; color:#fff; letter-spacing:-.02em; margin-bottom:8px; }
     .admin-sub { color:rgba(255,255,255,.45); font-size:0.9rem; }
 
     /* admin gate */
     #admin-gate { display:flex; justify-content:center; }
     .admin-gate-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:52px 44px; width:100%; max-width:440px; text-align:center; }
-    .admin-gate-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:#fff; margin-bottom:8px; }
+    .admin-gate-card h3 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.5rem; color:#fff; margin-bottom:8px; }
     .admin-gate-card p { font-size:0.86rem; color:rgba(255,255,255,.5); margin-bottom:26px; }
     .admin-input { flex:1; font-family:'Inter',sans-serif; padding:11px 16px; border:1.5px solid rgba(255,255,255,.15); border-radius:10px; font-size:0.9rem; background:rgba(255,255,255,.07); color:#fff; outline:none; transition:border-color .2s; }
     .admin-input:focus { border-color:var(--admin-acc); }
     .admin-input::placeholder { color:rgba(255,255,255,.3); }
     .btn-admin { font-family:'Inter',sans-serif; background:var(--admin-acc); color:#fff; border:none; padding:11px 22px; border-radius:10px; font-size:0.88rem; font-weight:600; cursor:pointer; transition:background .15s; white-space:nowrap; }
-    .btn-admin:hover { background:#2E7AB8; }
+    .btn-admin:hover { background:#3B8A55; }
     .admin-gate-err { display:none; color:#FF8888; font-size:0.8rem; margin-top:10px; }
 
     /* admin content */
@@ -267,7 +267,7 @@
     .admin-panel.active { display:block; }
 
     .admin-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:28px; margin-bottom:20px; }
-    .admin-card h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:#fff; margin-bottom:4px; }
+    .admin-card h4 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.2rem; color:#fff; margin-bottom:4px; }
     .admin-card-sub { font-size:0.82rem; color:rgba(255,255,255,.4); margin-bottom:22px; }
 
     /* admin form fields */
@@ -282,13 +282,13 @@
     .member-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.06); font-size:0.88rem; color:rgba(255,255,255,.8); vertical-align:middle; }
     .member-table tr:last-child td { border-bottom:none; }
     .member-table tr:hover td { background:rgba(255,255,255,.03); }
-    .member-count-badge { display:inline-block; background:rgba(59,142,202,.2); color:var(--admin-acc); font-size:0.72rem; font-weight:700; padding:2px 10px; border-radius:10px; margin-left:8px; }
+    .member-count-badge { display:inline-block; background:rgba(79,166,106,.2); color:var(--admin-acc); font-size:0.72rem; font-weight:700; padding:2px 10px; border-radius:10px; margin-left:8px; }
 
     /* action buttons row */
     .action-row { display:flex; gap:10px; flex-wrap:wrap; }
     .btn-act { font-family:'Inter',sans-serif; display:inline-flex; align-items:center; gap:7px; padding:10px 20px; border-radius:10px; font-size:0.85rem; font-weight:600; cursor:pointer; border:none; transition:all .15s; text-decoration:none; }
     .btn-act-blue { background:var(--admin-acc); color:#fff; }
-    .btn-act-blue:hover { background:#2E7AB8; }
+    .btn-act-blue:hover { background:#3B8A55; }
     .btn-act-green { background:#1E7A4A; color:#fff; }
     .btn-act-green:hover { background:#166040; }
     .btn-act-outline { background:transparent; color:rgba(255,255,255,.7); border:1.5px solid rgba(255,255,255,.2); }
@@ -333,7 +333,7 @@
     .poll-form-row { display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; }
     .poll-name-wrap { flex:1; min-width:180px; }
     .poll-submitted { background:var(--green-lt); border:1px solid #A8DEC0; border-radius:14px; padding:22px 24px; text-align:center; display:none; }
-    .poll-submitted h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--green); margin-bottom:6px; }
+    .poll-submitted h4 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.2rem; color:var(--green); margin-bottom:6px; }
     .poll-submitted p { font-size:0.85rem; color:#2A6A4A; }
 
     /* poll results (public, optional) */
@@ -407,12 +407,12 @@
     .profile-photo-lg {
       width:72px; height:72px; border-radius:50%; flex-shrink:0;
       display:flex; align-items:center; justify-content:center;
-      font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:#fff;
+      font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.6rem; color:#fff;
       overflow:hidden;
     }
     .profile-photo-lg img { width:100%; height:100%; object-fit:cover; }
     .profile-name-block { flex:1; min-width:0; }
-    .profile-modal-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--dark); line-height:1.2; margin-bottom:6px; }
+    .profile-modal-name { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.4rem; color:var(--dark); line-height:1.2; margin-bottom:6px; }
     .profile-modal-status { display:inline-block; font-size:0.7rem; font-weight:600; padding:3px 10px; border-radius:6px; margin-bottom:6px; }
     .profile-modal-joined { font-size:0.76rem; color:var(--muted); }
     .profile-fields { display:flex; flex-direction:column; gap:16px; }
@@ -429,7 +429,7 @@
     }
     .admin-modal-overlay.open { opacity:1; pointer-events:all; }
     .admin-modal-card {
-      background:#1A2535; border:1px solid rgba(255,255,255,.12); border-radius:20px;
+      background:#18211B; border:1px solid rgba(255,255,255,.12); border-radius:20px;
       width:100%; max-width:560px; max-height:88vh; overflow-y:auto;
       box-shadow:0 24px 80px rgba(0,0,0,.5); padding:32px; position:relative;
       transform:translateY(12px); transition:transform .2s;
@@ -443,7 +443,7 @@
     }
     .admin-modal-close:hover { background:rgba(255,255,255,.15); color:#fff; }
     #apm-photo-preview img { width:100%; height:100%; object-fit:cover; }
-    .admin-modal-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:#fff; margin-bottom:4px; }
+    .admin-modal-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.3rem; color:#fff; margin-bottom:4px; }
     .admin-modal-sub { font-size:0.82rem; color:rgba(255,255,255,.4); margin-bottom:24px; }
 
     /* ── PHOTO CROP OVERLAY ── */
@@ -454,14 +454,14 @@
     }
     .crop-overlay.open { opacity:1; pointer-events:all; }
     .crop-card {
-      background:#1A2535; border:1px solid rgba(255,255,255,.15); border-radius:20px;
+      background:#18211B; border:1px solid rgba(255,255,255,.15); border-radius:20px;
       padding:28px; width:100%; max-width:320px; text-align:center;
     }
-    .crop-card h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:#fff; margin-bottom:4px; }
+    .crop-card h4 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.2rem; color:#fff; margin-bottom:4px; }
     .crop-card p  { font-size:0.78rem; color:rgba(255,255,255,.4); margin-bottom:20px; }
     #crop-canvas  {
       border-radius:50%; display:block; margin:0 auto 18px; cursor:grab;
-      touch-action:none; box-shadow:0 0 0 3px rgba(59,142,202,.6);
+      touch-action:none; box-shadow:0 0 0 3px rgba(79,166,106,.6);
     }
     #crop-canvas:active { cursor:grabbing; }
     .crop-zoom-row { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
@@ -518,7 +518,7 @@
     .score-abandon-row label { font-size:0.82rem; color:var(--muted); cursor:pointer; }
     .score-abandoned-tag { display:inline-flex; align-items:center; gap:4px; background:var(--coral-lt); color:var(--coral); font-size:0.78rem; font-weight:700; padding:3px 10px; border-radius:12px; }
     .scoring-submitted { background:var(--green-lt); border:1px solid #A8DEC0; border-radius:14px; padding:22px 24px; text-align:center; display:none; }
-    .scoring-submitted h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--green); margin-bottom:6px; }
+    .scoring-submitted h4 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.2rem; color:var(--green); margin-bottom:6px; }
     .scoring-submitted p { font-size:0.85rem; color:#2A6A4A; }
 
     /* ── ACCORDION SECTIONS ── */
@@ -533,7 +533,7 @@
     }
     .accordion-header:hover { background:var(--cream); }
     .acc-icon { font-size:1.05rem; flex-shrink:0; }
-    .acc-title { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--dark); flex:1; line-height:1.3; }
+    .acc-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.05rem; color:var(--dark); flex:1; line-height:1.3; }
     .acc-badge { font-size:0.68rem; font-weight:700; padding:3px 9px; border-radius:20px; background:var(--pink-lt); color:var(--pink); flex-shrink:0; }
     .acc-badge.live { background:#FDE8E8; color:#C03030; }
     .acc-count { font-size:0.72rem; font-weight:600; color:var(--muted); background:var(--border); padding:2px 9px; border-radius:10px; flex-shrink:0; }
@@ -565,10 +565,10 @@
     }
     .book-modal-close:hover { background:var(--pink-lt); color:var(--pink); }
     .book-modal-eyebrow { font-size:0.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--pink); margin-bottom:8px; }
-    .book-modal-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.7rem; color:var(--dark); line-height:1.15; margin-bottom:4px; }
+    .book-modal-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:1.7rem; color:var(--dark); line-height:1.15; margin-bottom:4px; }
     .book-modal-meta { font-size:0.82rem; color:var(--muted); margin-bottom:20px; }
     .book-modal-score-row { display:flex; align-items:baseline; gap:10px; padding:16px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:20px; }
-    .book-modal-score-big { font-family:'Cormorant Garamond',serif; font-size:3rem; color:var(--pink); line-height:1; }
+    .book-modal-score-big { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:3rem; color:var(--pink); line-height:1; }
     .book-modal-score-label { font-size:0.75rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
     .bm-section-label { font-size:0.72rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
     .bm-scores-list { display:flex; flex-direction:column; gap:8px; }
@@ -594,11 +594,11 @@
     .hero-eyebrow, .hero-book-label, .up-date { color:var(--coral); }
     .hero-eyebrow::before { background:var(--coral); }
     .hero-desc { color:var(--text); }
-    .hero-pill { background:#fff; border:none; border-radius:0; text-transform:uppercase; letter-spacing:.1em; font-size:0.68rem; padding:10px 18px; box-shadow:0 1px 2px rgba(26,42,64,.06); }
+    .hero-pill { background:#fff; border:none; border-radius:0; text-transform:uppercase; letter-spacing:.1em; font-size:0.68rem; padding:10px 18px; box-shadow:0 1px 2px rgba(18,21,18,.06); }
     .hero-pill strong { color:var(--dark); }
     .hero-cta { display:inline-block; margin-top:22px; background:var(--dark); color:#fff; text-decoration:none; text-transform:uppercase; letter-spacing:.14em; font-size:0.7rem; font-weight:600; padding:14px 24px; }
     .hero-cta:hover { background:var(--coral); }
-    .hero-book-card { border:none; border-radius:2px; box-shadow:0 18px 50px rgba(26,42,64,.12); }
+    .hero-book-card { border:none; border-radius:2px; box-shadow:0 18px 50px rgba(18,21,18,.12); }
     .section-title { font-size:2.5rem; letter-spacing:0; }
     .section-rule { background:var(--coral); width:32px; height:1.5px; }
     .stat-card, .books-container, .up-card, .member-card, .form-card, .gate-card, .community-card,
@@ -612,18 +612,18 @@
     .sort-btn.active, .btn-pink { background:var(--dark); border-color:var(--dark); }
     .score-pending { border-radius:0; text-transform:uppercase; letter-spacing:.1em; font-size:0.62rem; background:var(--coral-lt); color:#9A5F3A; border-color:#EED7C8; }
     .up-cover, .cover-img-wrap img, .cover-fallback { border-radius:1px; }
-    .up-cover-tbd, .cover-fallback { background:linear-gradient(165deg,#BFD4EA 0%,#DCE9F5 55%,#F1D9C8 100%); color:var(--dark); }
+    .up-cover-tbd, .cover-fallback { background:linear-gradient(165deg,#2F5D3A 0%,#1F4228 55%,#121512 100%); color:var(--dark); }
     .up-cover-tbd span { opacity:.6; }
     .up-cover-tbd strong { font-size:2.8rem; font-weight:500; }
     footer { background:var(--sky); color:var(--muted); }
-    footer strong { color:var(--dark); font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:500; }
+    footer strong { color:var(--dark); font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.2rem; font-weight:500; }
 
     /* ════ MEMBER AREA (app-style: Home · Score · Picks · People) ════ */
     body.mx-unlocked #members .section-head { display:none; }
     body.mx-unlocked #members .section { padding-top:40px; }
     #mx-app, #mx-who { scroll-margin-top:62px; }
     .mx-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--dark); color:#fff; padding:18px 20px; }
-    .mx-hello { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:2rem; line-height:1.05; color:#fff; }
+    .mx-hello { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-weight:500; font-size:2rem; line-height:1.05; color:#fff; }
     .mx-bar-sub { font-size:0.62rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.6); margin-top:5px; }
     .mx-me { background:none; border:none; padding:0; cursor:pointer; }
     .mx-av { position:relative; width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:0.7rem; font-weight:700; overflow:hidden; flex-shrink:0; border:2px solid #fff; font-family:'Inter',sans-serif; }
@@ -645,12 +645,12 @@
     .mx-card > .mx-label:first-child { margin:-18px -18px 16px; }
     .mx-home { display:grid; grid-template-columns:1.15fr 1fr; gap:28px; align-items:start; }
     .mx-meet { display:flex; gap:16px; align-items:flex-start; }
-    .mx-meet h4 { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:1.5rem; color:var(--dark); line-height:1.12; }
+    .mx-meet h4 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-weight:500; font-size:1.5rem; color:var(--dark); line-height:1.12; }
     .mx-meet p { font-size:0.82rem; color:var(--muted); line-height:1.6; margin-top:5px; }
     .mx-meet p b { color:var(--dark); }
     .mx-cover { position:relative; flex-shrink:0; width:88px; aspect-ratio:2/3; background:#CFDAE6 center/cover no-repeat; box-shadow:3px 5px 14px rgba(19,32,58,.2); }
-    .mx-cover-blank { display:flex; align-items:center; justify-content:center; padding:8px; text-align:center; background:linear-gradient(165deg,#BFD4EA 0%,#DCE9F5 55%,#F1D9C8 100%); }
-    .mx-cover-blank span { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.9rem; color:var(--dark); line-height:1.15; }
+    .mx-cover-blank { display:flex; align-items:center; justify-content:center; padding:8px; text-align:center; background:linear-gradient(165deg,#2F5D3A 0%,#1F4228 55%,#121512 100%); }
+    .mx-cover-blank span { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-size:0.9rem; color:var(--dark); line-height:1.15; }
     .mx-ribbon { position:absolute; top:6px; left:6px; z-index:1; background:var(--coral); color:#fff; font-family:'Inter',sans-serif; font-style:normal; font-size:0.5rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3px 6px; }
     .mx-seg { display:grid; grid-template-columns:repeat(3,1fr); margin-top:18px; border:1px solid var(--border); }
     .mx-seg button { background:#fff; border:none; border-right:1px solid var(--border); padding:14px 4px; font-family:'Inter',sans-serif; font-size:0.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--dark); cursor:pointer; transition:background .15s; }
@@ -693,7 +693,7 @@
     #mx-home-picks .mx-pick { margin-bottom:12px; }
     .mx-pick .mx-cover { width:62px; }
     .mx-pick-body { flex:1; min-width:0; }
-    .mx-pick h5 { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:1.25rem; color:var(--dark); line-height:1.15; }
+    .mx-pick h5 { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-style:italic; font-weight:500; font-size:1.25rem; color:var(--dark); line-height:1.15; }
     .mx-pick p { font-size:0.78rem; color:var(--muted); margin-top:2px; }
     .mx-by { display:inline-flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--muted); margin-top:8px; }
     .mx-pick q { display:block; font-size:0.84rem; font-style:italic; color:var(--text); line-height:1.5; margin-top:8px; }
@@ -747,29 +747,6 @@
       .mx-seg button { padding:15px 2px; font-size:0.62rem; }
     }
 
-    .mx-pick-row { display:flex; gap:14px; overflow-x:auto; padding:2px 2px 12px; margin-bottom:6px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
-    .mx-ptile { flex:0 0 104px; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; text-align:center; }
-    .mx-ptile-cover { background:none; border:none; padding:0; cursor:pointer; width:100%; }
-    .mx-ptile .mx-cover { width:100%; }
-    .mx-ptile-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.95rem; color:var(--dark); line-height:1.15; margin-top:8px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .mx-ptile-vote { margin-top:6px; background:#fff; border:1px solid var(--border); padding:4px 12px; font-family:'Inter',sans-serif; font-size:0.74rem; font-weight:700; color:var(--coral); cursor:pointer; }
-    .mx-ptile-vote.on { background:var(--coral); border-color:var(--coral); color:#fff; }
-    .mx-ptile-add .mx-cover-blank span { font-family:'Inter',sans-serif; font-style:normal; font-size:0.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--coral); }
-    .mx-edit-link { display:inline-block; margin-top:8px; background:none; border:none; padding:0; color:var(--muted); font-family:'Inter',sans-serif; font-size:0.72rem; text-decoration:underline; cursor:pointer; }
-    .mx-danger { color:#A83030; }
-    .mx-sheet-alts { display:flex; justify-content:center; gap:22px; }
-    .mx-sheet-alts .mx-textbtn { margin:12px 0 0; }
-    .mx-sheet-wrap { z-index:600; }
-    .org-clean-row { display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.07); color:rgba(255,255,255,.85); font-size:0.86rem; }
-    .org-clean-row:last-child { border-bottom:none; }
-    .org-clean-main { flex:1; min-width:0; }
-    .org-clean-main b { color:#fff; font-weight:500; }
-    .org-clean-sub { font-size:0.74rem; color:rgba(255,255,255,.45); margin-top:3px; }
-    .org-dupe { color:#F2B48C; font-weight:700; }
-    .org-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-    .org-chip { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.85); font-size:0.76rem; padding:4px 4px 4px 10px; }
-    .org-chip button { background:none; border:none; color:#FF8888; cursor:pointer; font-size:0.8rem; padding:2px 6px; }
-
     /* ════ ORGANIZER — opens from the footer as a full-screen panel ════ */
     #admin-area { position:fixed; inset:0; z-index:500; overflow-y:auto; display:none; }
     #admin-area.open { display:block; }
@@ -780,7 +757,7 @@
     .org-link { color:inherit; text-decoration:underline; }
     .org-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
     .org-kpi { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); padding:16px; }
-    .org-kpi b { display:block; font-family:'Cormorant Garamond',serif; font-weight:500; font-size:2rem; color:#fff; line-height:1; }
+    .org-kpi b { display:block; font-family:'Zilla Slab',Rockwell,Georgia,serif; font-weight:500; font-size:2rem; color:#fff; line-height:1; }
     .org-kpi span { font-size:0.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.5); }
     .org-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.08); color:rgba(255,255,255,.85); font-size:0.88rem; }
     .org-row:last-child { border-bottom:none; }
@@ -800,6 +777,27 @@
       .org-kpi { padding:12px; } .org-kpi b { font-size:1.5rem; }
       .admin-inner { padding:20px 16px 60px; }
     }
+      /* ════ FOREST & BLACK THEME (overrides) ════ */
+    h1, .section-title, .nav-logo, .hero-book-title, .book-title, .up-title, .stat-num, .bm-title, .gate-card h3 { font-weight:600; }
+    body > nav { background:var(--dark); }
+    .nav-logo { color:#F2F4EF; }
+    .nav-logo span { color:#8DBA7A; font-style:normal; }
+    body > nav ul li a { color:rgba(255,255,255,.75); }
+    body > nav ul li a:hover { color:#8DBA7A; }
+    .hero { background:linear-gradient(170deg,#121512 0%,#17221A 60%,#1F3324 100%); }
+    .hero h1 { color:#F2F4EF; letter-spacing:-.015em; }
+    .hero h1 em { color:#8DBA7A; font-style:normal; font-weight:600; }
+    .hero-eyebrow, .hero .hero-book-label { color:#8DBA7A; }
+    .hero-eyebrow::before { background:#8DBA7A; }
+    .hero-desc { color:rgba(255,255,255,.78); }
+    .hero-pill { background:rgba(255,255,255,.07); color:#E6EAE4; box-shadow:none; border:1px solid rgba(255,255,255,.14); }
+    .hero-pill strong { color:#8DBA7A; }
+    .hero-cta { background:var(--pink); }
+    .hero-cta:hover { background:var(--coral); }
+    .hero-book-card { box-shadow:0 18px 50px rgba(0,0,0,.45); }
+    .up-cover-tbd, .cover-fallback { color:#E6EAE4; }
+    footer { background:var(--dark); color:rgba(255,255,255,.6); }
+    footer strong { color:#F2F4EF; font-weight:600; }
   </style>
 </head>
 <body>
@@ -807,7 +805,7 @@
 <!-- ── NAV ── -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-logo">Huntington Village <span>Readers</span></a>
+    <a href="#" class="nav-logo">Huntington <span>Book Bros</span></a>
     <ul>
       <li><a href="#meeting">Next Meeting</a></li>
       <li><a href="#upcoming">Upcoming</a></li>
@@ -822,8 +820,8 @@
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-eyebrow">Long Island, New York</div>
-      <h1>Huntington Village<br><em>Readers</em></h1>
-      <p class="hero-desc">A book club for moms in and around Huntington Village. We meet every couple of months to eat, drink, talk it through, and give every book a score.</p>
+      <h1>Huntington<br><em>Book Bros</em></h1>
+      <p class="hero-desc">A book club for bros who read in and around Huntington. We meet every month to drink, eat pie, and banter.</p>
       <div class="hero-pills">
         <div class="hero-pill"><strong id="pill-count">0</strong> books read</div>
         <div class="hero-pill">avg <strong id="pill-avg">–</strong> / 5</div>
@@ -1023,7 +1021,7 @@
                 <div class="mx-label">Still to score</div>
                 <div class="mx-mini-shelf" id="mx-home-shelf"></div>
                 <div class="mx-label" id="mx-home-picks-label">Member picks</div>
-                <div class="mx-pick-row" id="mx-home-picks"></div>
+                <div id="mx-home-picks"></div>
                 <button class="mx-link" onclick="mxTab('picks')">See all picks →</button>
               </div>
             </div>
@@ -1093,7 +1091,7 @@
   <div class="admin-inner">
     <div class="admin-header">
       <div><div class="admin-badge">⚙ Organizer</div>
-      <div class="admin-title">Manage the Readers</div></div>
+      <div class="admin-title">Manage the Bros</div></div>
       <button class="org-close" onclick="closeOrganizer()">✕ Close</button>
     </div>
 
@@ -1115,7 +1113,6 @@
     <div id="admin-content">
       <div class="admin-tabs">
         <button class="admin-tab active" onclick="showTab('tab-overview',this)">✨ Overview</button>
-        <button class="admin-tab" onclick="showTab('tab-cleanup',this)">🧹 Clean up</button>
         <button class="admin-tab" onclick="showTab('tab-members',this)">👥 Members</button>
         <button class="admin-tab" onclick="showTab('tab-email',this)">✉️ Email Group</button>
         <button class="admin-tab" onclick="showTab('tab-meeting',this)">📅 Next Meeting</button>
@@ -1131,31 +1128,14 @@
         <div class="admin-card" style="padding:8px 22px;" id="org-actions"></div>
       </div>
 
-      <div id="tab-cleanup" class="admin-panel">
-        <div class="admin-card">
-          <h4>Member picks</h4>
-          <p class="admin-card-sub">Fix typos or remove duplicates. Possible duplicates are flagged. Deleting a pick also removes its ♥s.</p>
-          <div id="org-clean-picks"></div>
-        </div>
-        <div class="admin-card">
-          <h4>Scores</h4>
-          <p class="admin-card-sub">Remove a score someone entered by mistake — the group average updates right away. (Members can change their own score anytime on the Score tab.)</p>
-          <div id="org-clean-scores"></div>
-        </div>
-        <div class="admin-card">
-          <h4>RSVPs for the next meeting</h4>
-          <p class="admin-card-sub">Clear an RSVP so it goes back to "no reply". (Members can change their own RSVP anytime on Home.)</p>
-          <div id="org-clean-rsvps"></div>
-        </div>
-      </div>
-
       <div id="tab-members" class="admin-panel">
         <div class="admin-card">
           <h4>Add New Member</h4>
-          <p class="admin-card-sub">They'll appear in the members list and be included in group emails and calendar invites.</p>
+          <p class="admin-card-sub">Add an email, a phone number, or both. Emails get group emails and calendar invites; phone numbers get group texts.</p>
           <div class="form-row" style="margin-bottom:16px;">
             <div class="fg"><label class="afl">Full Name</label><input class="afi" type="text" id="new-member-name" placeholder="Jane Smith" /></div>
-            <div class="fg"><label class="afl">Email Address</label><input class="afi" type="email" id="new-member-email" placeholder="jane@example.com" /></div>
+            <div class="fg"><label class="afl">Email Address (optional)</label><input class="afi" type="email" id="new-member-email" placeholder="mike@example.com" /></div>
+            <div class="fg"><label class="afl">Phone Number (optional)</label><input class="afi" type="tel" id="new-member-phone" placeholder="(631) 555-0123" /></div>
           </div>
           <button class="btn-act btn-act-blue" onclick="addMember()">+ Add Member</button>
         </div>
@@ -1165,7 +1145,7 @@
           <p class="admin-card-sub">Remove anyone who wants to unsubscribe or step back.</p>
           <div style="overflow-x:auto;">
             <table class="member-table" id="admin-member-table">
-              <thead><tr><th>Name</th><th>Email</th><th>Added</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Name</th><th>Email / Phone</th><th>Added</th><th>Actions</th></tr></thead>
               <tbody id="admin-member-tbody"></tbody>
             </table>
           </div>
@@ -1184,6 +1164,16 @@
             <button class="btn-act btn-act-outline" onclick="copyAllEmails()">📋 Copy All Emails</button>
           </div>
           <div class="fg"><label class="afl">All member emails (for manual use)</label><textarea class="afi" id="email-list-display" style="min-height:80px;font-size:0.78rem;" readonly></textarea></div>
+        </div>
+        <div class="admin-card">
+          <h4>Text Everyone</h4>
+          <p class="admin-card-sub">For members you only have a phone number for. On an iPhone, the group text button opens Messages with everyone added.</p>
+          <div class="action-row" style="margin-bottom:24px;">
+            <button class="btn-act btn-act-blue" onclick="textAll('reminder')">⏰ Text Meeting Reminder</button>
+            <button class="btn-act btn-act-blue" onclick="textAll('blank')">💬 Blank Group Text</button>
+            <button class="btn-act btn-act-outline" onclick="copyAllPhones()">📋 Copy All Numbers</button>
+          </div>
+          <div class="fg"><label class="afl">All member phone numbers</label><textarea class="afi" id="phone-list-display" style="min-height:80px;font-size:0.78rem;" readonly></textarea></div>
         </div>
       </div>
 
@@ -1418,7 +1408,11 @@
       </div>
       <div class="fg" style="margin-bottom:0;">
         <label class="afl">Email Address</label>
-        <input class="afi" type="email" id="apm-email" placeholder="e.g. jane@example.com" />
+        <input class="afi" type="email" id="apm-email" placeholder="e.g. mike@example.com" />
+      </div>
+      <div class="fg" style="margin-bottom:0;margin-top:12px;">
+        <label class="afl">Phone Number</label>
+        <input class="afi" type="tel" id="apm-phone" placeholder="e.g. (631) 555-0123" />
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,.1);margin:18px 0 14px;"></div>
@@ -1493,28 +1487,27 @@
     </div>
     <div class="mx-ss-num" id="mx-ss-num"></div>
     <button class="mx-btn" id="mx-ss-next" onclick="mxNextToScore()">Next book to score →</button>
-    <div class="mx-sheet-alts"><button class="mx-textbtn" onclick="mxDidntFinish()">I didn't finish it</button><button class="mx-textbtn" onclick="mxDidntRead()">I didn't read it</button></div>
+    <button class="mx-textbtn" onclick="mxDidntFinish()">I didn't finish this one</button>
   </div>
 </div>
 <div class="mx-sheet-wrap" id="mx-sheet-suggest" onclick="if(event.target===this) mxCloseSheets()">
   <div class="mx-sheet">
     <div class="mx-grab"></div>
-    <div class="mx-label" id="mx-sg-head">Suggest a book</div>
+    <div class="mx-label">Suggest a book</div>
     <form onsubmit="mxSubmitSuggest(event)">
       <div class="fg"><label class="fl">Book title *</label><input class="fi" type="text" id="mx-sg-title" required placeholder="e.g. James" /></div>
       <div class="fg"><label class="fl">Author</label><input class="fi" type="text" id="mx-sg-author" placeholder="e.g. Percival Everett" /></div>
       <div class="fg"><label class="fl">Why should we read it? (optional)</label><textarea class="fta" id="mx-sg-pitch" placeholder="A sentence or two"></textarea></div>
-      <button type="submit" class="mx-btn" id="mx-sg-submit" style="margin-top:6px;">Post suggestion</button>
+      <button type="submit" class="mx-btn" style="margin-top:6px;">Post suggestion</button>
     </form>
-    <button class="mx-textbtn mx-danger" id="mx-sg-delete" style="display:none;" onclick="mxDeleteRec(MX.editRecId)">Delete this suggestion</button>
     <button class="mx-textbtn" onclick="mxCloseSheets()">Cancel</button>
   </div>
 </div>
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div><strong>The Huntington Village Readers</strong></div>
-  <div>Huntington Village · Long Island · <a href="#" class="org-link" onclick="openOrganizer(event)">Organizer</a></div>
+  <div><strong>Huntington Book Bros</strong></div>
+  <div>Huntington · Long Island · <a href="#" class="org-link" onclick="openOrganizer(event)">Organizer</a></div>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -1524,9 +1517,20 @@
 // ════════════════════════════════════════════════════════════════
 //  SUPABASE
 // ════════════════════════════════════════════════════════════════
-const SUPABASE_URL  = 'https://ytrtqvahyezspfajmufl.supabase.co';        // see SETUP.md step 2
-const SUPABASE_KEY  = 'sb_publishable_QMNZ5_QMXU86MkG5GJkdOw_vNewDi5z';    // the "anon" key — safe to be public
+const SUPABASE_URL  = 'https://ztqzdubhqnopzdbrtblb.supabase.co';        // see SETUP.md step 2
+const SUPABASE_KEY  = 'sb_publishable_jQ-pS1FfBCoH9sxTx3jULA_qQvTDUpB';    // the "anon" key — safe to be public
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── Phone-only members ──
+// The site identifies every member by their "email" (RSVPs, scores, votes).
+// Members added with only a phone number get a stand-in ID like
+// "6315550123@phone" so all of that still works; it's never emailed.
+const PHONE_ID_SUFFIX = '@phone';
+function phoneDigits(p) { const d = String(p || '').replace(/\D/g, ''); return d.length === 11 && d[0] === '1' ? d.slice(1) : d; }
+function phoneId(p) { return phoneDigits(p) + PHONE_ID_SUFFIX; }
+function isPhoneId(e) { return String(e || '').toLowerCase().endsWith(PHONE_ID_SUFFIX); }
+function realEmail(m) { return m && m.email && !isPhoneId(m.email) ? m.email : ''; }
+function prettyPhone(p) { const d = phoneDigits(p); return d.length === 10 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : String(p || ''); }
 
 async function loadProfilesFromSupabase() {
   try {
@@ -1810,11 +1814,10 @@ function mxRenderHome() {
     ? todo.map(e => `<button class="mx-cell" onclick="mxOpenScore('${e.key}')">${mxCover(e, e.isCurrent ? 'Now' : '')}<span class="mx-tap">Tap to score</span></button>`).join('')
     : `<div class="mx-empty">🎉 You've scored every book.</div>`;
 
-  // Member picks: a swipeable row of covers, most-wanted first
-  const top = mxSortedRecs('votes').slice(0, 12);
+  // Top picks
+  const top = mxSortedRecs('votes').slice(0, 2);
   document.getElementById('mx-home-picks-label').textContent = `Member picks · ${MX.recs.length}`;
-  document.getElementById('mx-home-picks').innerHTML = top.length
-    ? top.map(mxPickTile).join('') + `<div class="mx-ptile mx-ptile-add"><button class="mx-ptile-cover" onclick="mxOpenSuggest()"><div class="mx-cover mx-cover-blank"><span>+ Suggest<br>a book</span></div></button></div>`
+  document.getElementById('mx-home-picks').innerHTML = top.length ? top.map(r => mxPickCard(r, true)).join('')
     : `<div class="mx-empty">No picks yet — <button class="mx-link" onclick="mxOpenSuggest()">suggest the first one</button></div>`;
 }
 
@@ -1850,7 +1853,7 @@ function mxRenderScore() {
   document.getElementById('mx-shelf').innerHTML = list.length ? list.map(e => {
     const mine = mxMine(e);
     const under = mine
-      ? (mine.skipped ? `<span class="mx-dnf-tag">Didn't read</span>` : mine.abandoned ? `<span class="mx-dnf-tag">Didn't finish</span>` : mxMiniStars(mine.score))
+      ? (mine.abandoned ? `<span class="mx-dnf-tag">Didn't finish</span>` : mxMiniStars(mine.score))
       : `<span class="mx-tap">Tap to score</span>`;
     const avg = MX.scoreFilter === 'top' && e.rating != null ? `<span class="mx-cell-avg">Group ${e.rating.toFixed(2)}</span>` : '';
     return `<button class="mx-cell" onclick="mxOpenScore('${e.key}')">${mxCover(e, e.isCurrent ? 'Now' : '')}${under}${avg}<span class="mx-cell-title">${escHtml(e.title)}</span></button>`;
@@ -1868,16 +1871,16 @@ function mxFillSheet() {
   const e = scoreEntries().find(x => x.key === MX.sheetKey);
   if (!e) return mxCloseSheets();
   const mine = mxMine(e);
-  const n = (e.scores || []).filter(v => !v.abandoned && !v.skipped && v.score != null).length;
+  const n = (e.scores || []).filter(v => !v.abandoned && v.score != null).length;
   document.getElementById('mx-ss-book').innerHTML = `
     <div class="mx-meet">${mxCover(e, e.isCurrent ? 'Now' : '')}
       <div><h4>${escHtml(e.title)}</h4><p>${e.author ? escHtml(e.author) + ' · ' : ''}${escHtml(e.date || '')}<br>${e.rating != null ? `Group avg <b>${e.rating.toFixed(2)}</b> · ${n} score${n === 1 ? '' : 's'}` : 'No scores yet — be the first!'}</p></div>
     </div>`;
   const fill = document.getElementById('mx-ss-fill');
-  fill.style.width = mine && !mine.abandoned && !mine.skipped ? (mine.score / 5 * 100) + '%' : '0%';
+  fill.style.width = mine && !mine.abandoned ? (mine.score / 5 * 100) + '%' : '0%';
   delete fill.dataset.saved;
   document.getElementById('mx-ss-num').innerHTML = !mine ? 'Tap the stars to score'
-    : mine.skipped ? "You didn't read this one" : mine.abandoned ? "You didn't finish this one" : `Your score <b>${mine.score}</b> · saved ✓`;
+    : mine.abandoned ? "You didn't finish this one" : `Your score <b>${mine.score}</b> · saved ✓`;
   const next = mxToScore().find(x => x.key !== e.key);
   document.getElementById('mx-ss-next').textContent = next ? 'Next book to score →' : 'Done';
 }
@@ -1899,10 +1902,6 @@ async function mxTapBigStars(e) {
   const id = await saveScoreFor(MX.sheetKey, v);
   if (id) { MX.sheetKey = String(id); mxFillSheet(); }
 }
-async function mxDidntRead() {
-  const id = await saveScoreFor(MX.sheetKey, null, false, true);
-  if (id) { MX.sheetKey = String(id); mxFillSheet(); }
-}
 async function mxDidntFinish() {
   const id = await saveScoreFor(MX.sheetKey, null, true);
   if (id) { MX.sheetKey = String(id); mxFillSheet(); }
@@ -1913,17 +1912,15 @@ function mxNextToScore() {
 }
 function mxCloseSheets() {
   document.querySelectorAll('.mx-sheet-wrap').forEach(w => w.classList.remove('open'));
-  MX.editRecId = null; MX.editAsOrganizer = false;
-  // keep the page locked if the Organizer panel is still open underneath
-  document.body.style.overflow = document.getElementById('admin-area').classList.contains('open') ? 'hidden' : '';
+  document.body.style.overflow = '';
 }
 
 // Saves (or changes) this member's score on one book; returns the book id
-async function saveScoreFor(key, score, abandoned = false, skipped = false) {
+async function saveScoreFor(key, score, abandoned = false) {
   const me = mxMe();
   if (!me) { toast('Pick your name first.'); return null; }
   const email = norm(me.email);
-  if (!abandoned && !skipped && (isNaN(score) || score < 1 || score > 5)) { toast('Score must be between 1 and 5.'); return null; }
+  if (!abandoned && (isNaN(score) || score < 1 || score > 5)) { toast('Score must be between 1 and 5.'); return null; }
 
   // The current read gets its own row in Books We've Read the first time someone scores it
   let id = key;
@@ -1941,9 +1938,8 @@ async function saveScoreFor(key, score, abandoned = false, skipped = false) {
   const { data: row, error: readErr } = await db.from('books').select('scores').eq('id', id).single();
   if (readErr) { toast('Could not save — please try again.'); console.warn(readErr.message); return null; }
   const scores = (row.scores || []).filter(v => norm(v.email) !== email);
-  scores.push(skipped ? { name: me.name, email, score: null, abandoned: false, skipped: true }
-                      : { name: me.name, email, score: abandoned ? null : Math.round(score * 100) / 100, abandoned });
-  const rated  = scores.filter(v => !v.abandoned && !v.skipped && v.score != null);
+  scores.push({ name: me.name, email, score: abandoned ? null : Math.round(score * 100) / 100, abandoned });
+  const rated  = scores.filter(v => !v.abandoned && v.score != null);
   const rating = rated.length ? Math.round(rated.reduce((s, v) => s + v.score, 0) / rated.length * 100) / 100 : null;
   const { error } = await db.from('books').update({ scores, rating }).eq('id', id);
   if (error) { toast('Could not save — please try again.'); console.warn(error.message); return null; }
@@ -1953,7 +1949,7 @@ async function saveScoreFor(key, score, abandoned = false, skipped = false) {
   renderBooks();
   renderAdminBooksAll();
   mxRender();
-  toast(skipped ? "✓ Got it — marked as didn't read" : abandoned ? "✓ Saved — marked as didn't finish" : `✓ Saved your ${Math.round(score * 100) / 100} for "${book ? book.title : 'this book'}"`);
+  toast(abandoned ? "✓ Saved — marked as didn't finish" : `✓ Saved your ${Math.round(score * 100) / 100} for "${book ? book.title : 'this book'}"`);
   return id;
 }
 
@@ -1991,31 +1987,8 @@ function mxSortedRecs(by) {
     ? list.sort((a, b) => mxVoteCount(b.id) - mxVoteCount(a.id) || new Date(b.created_at) - new Date(a.created_at))
     : list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 }
-// Who posted a pick? Older picks only stored a first name, so match on that too (when it's unique)
-function mxRecAuthor(r) {
-  const n = norm(r.recommended_by);
-  if (!n) return null;
-  const members = DATA.members || [];
-  const full = members.find(m => norm(m.name) === n);
-  if (full) return full;
-  const firsts = members.filter(m => norm(mxFirst(m)) === n);
-  return firsts.length === 1 ? firsts[0] : null;
-}
-function mxOwnsRec(r) { const me = mxMe(); return !!me && mxRecAuthor(r) === me; }
-
-// Small cover tile for the Home row
-function mxPickTile(r) {
-  const on = mxIVoted(r.id);
-  return `
-    <div class="mx-ptile">
-      <button class="mx-ptile-cover" onclick="mxTab('picks')">${mxCover({ title: r.title, author: r.author })}</button>
-      <div class="mx-ptile-title">${escHtml(r.title)}</div>
-      ${MX.votesReady ? `<button class="mx-ptile-vote${on ? ' on' : ''}" onclick="mxVote(${r.id})">♥ ${mxVoteCount(r.id)}</button>` : ''}
-    </div>`;
-}
-
 function mxPickCard(r, compact) {
-  const by = mxRecAuthor(r);
+  const by = (DATA.members || []).find(m => norm(m.name) === norm(r.recommended_by));
   const on = mxIVoted(r.id);
   return `
     <div class="mx-pick">
@@ -2025,7 +1998,6 @@ function mxPickCard(r, compact) {
         ${r.author ? `<p>${escHtml(r.author)}</p>` : ''}
         ${r.recommended_by ? `<span class="mx-by">${by ? mxAvatar(by, 'xs') : ''}Suggested by ${escHtml(by ? mxFirst(by) : r.recommended_by)}</span>` : ''}
         ${!compact && r.pitch ? `<q>${escHtml(r.pitch)}</q>` : ''}
-        ${!compact && mxOwnsRec(r) ? `<button class="mx-edit-link" onclick="mxOpenSuggest(${r.id})">✎ Edit or delete</button>` : ''}
       </div>
       ${MX.votesReady ? `<button class="mx-vote${on ? ' on' : ''}" onclick="mxVote(${r.id})" title="${on ? 'Remove your ♥' : 'I’d read this!'}"><i>♥</i><b>${mxVoteCount(r.id)}</b></button>` : ''}
     </div>`;
@@ -2052,55 +2024,28 @@ async function mxVote(id) {
     : await db.from('rec_votes').insert({ rec_id: id, email });
   if (error) { toast('Could not save your ♥ — please try again.'); console.warn(error.message); loadRecommendations(); }
 }
-// Opens the suggest sheet — blank for a new pick, or filled in to edit one (asOrganizer skips the "is it yours" check)
-function mxOpenSuggest(editId = null, asOrganizer = false) {
-  const r = editId != null ? MX.recs.find(x => x.id === editId) : null;
-  if (!r && !mxMe()) return;
-  if (r && !asOrganizer && !mxOwnsRec(r)) return;
-  MX.editRecId = r ? r.id : null;
-  MX.editAsOrganizer = asOrganizer;
-  document.getElementById('mx-sg-head').textContent = r ? 'Edit suggestion' : 'Suggest a book';
-  document.getElementById('mx-sg-submit').textContent = r ? 'Save changes' : 'Post suggestion';
-  document.getElementById('mx-sg-delete').style.display = r ? '' : 'none';
-  document.getElementById('mx-sg-title').value  = r ? r.title || '' : '';
-  document.getElementById('mx-sg-author').value = r ? r.author || '' : '';
-  document.getElementById('mx-sg-pitch').value  = r ? r.pitch || '' : '';
+function mxOpenSuggest() {
+  if (!mxMe()) return;
   document.getElementById('mx-sheet-suggest').classList.add('open');
   document.body.style.overflow = 'hidden';
   setTimeout(() => document.getElementById('mx-sg-title').focus(), 250);
 }
 async function mxSubmitSuggest(e) {
   e.preventDefault();
+  const me = mxMe();
   const title = document.getElementById('mx-sg-title').value.trim();
-  if (!title) return;
-  const fields = { title, author: document.getElementById('mx-sg-author').value.trim(), pitch: document.getElementById('mx-sg-pitch').value.trim() };
-  const editing = MX.editRecId != null;
-  let error;
-  if (editing) {
-    ({ error } = await db.from('recommendations').update(fields).eq('id', MX.editRecId));
-  } else {
-    const me = mxMe(); if (!me) return;
-    ({ error } = await db.from('recommendations').insert({ ...fields, recommended_by: me.name }));
-  }
+  if (!title || !me) return;
+  const { error } = await db.from('recommendations').insert({
+    title, author: document.getElementById('mx-sg-author').value.trim(),
+    recommended_by: me.name, pitch: document.getElementById('mx-sg-pitch').value.trim()
+  });
   if (error) { toast('Something went wrong — try again.'); console.warn(error.message); return; }
-  const asOrganizer = MX.editAsOrganizer;
   e.target.reset();
   mxCloseSheets();
-  toast(editing ? '✓ Suggestion updated' : '✓ Thanks! Your suggestion is up.');
+  toast('✓ Thanks! Your suggestion is up.');
   await loadRecommendations();
-  if (asOrganizer) { renderOrgCleanup(); renderOrgOverview(); return; }
-  if (!editing) { mxPickSort('new'); mxTab('picks'); }
-}
-async function mxDeleteRec(id) {
-  const r = MX.recs.find(x => x.id === id);
-  if (!r || !confirm(`Delete "${r.title}"? This can't be undone.`)) return;
-  const { error } = await db.from('recommendations').delete().eq('id', id);
-  if (error) { toast('Could not delete — try again.'); console.warn(error.message); return; }
-  await db.from('rec_votes').delete().eq('rec_id', id);  // its ♥s go with it
-  mxCloseSheets();
-  toast('✓ Suggestion deleted');
-  await loadRecommendations();
-  renderOrgCleanup(); renderOrgOverview();
+  mxPickSort('new');
+  mxTab('picks');
 }
 
 // ── PEOPLE ──────────────────────────────────────────────────────
@@ -2197,6 +2142,7 @@ async function loadMembersFromSupabase() {
           id:      row.id,
           name:    row.name,
           email:   row.email,
+          phone:   row.phone || '',
           joined:  row.joined || '',
           profile: (existing && existing.profile) || {...EMPTY_PROFILE},
         };
@@ -2220,7 +2166,7 @@ async function loadMembersFromSupabase() {
 
 async function migrateMembersToSupabase() {
   try {
-    const rows = DATA.members.map(m => ({ name: m.name, email: m.email.toLowerCase(), joined: m.joined || '' }));
+    const rows = DATA.members.map(m => ({ name: m.name, email: m.email.toLowerCase(), phone: m.phone || '', joined: m.joined || '' }));
     if (!rows.length) return;
     // upsert + ignoreDuplicates so two simultaneous first-loads seeding the same
     // empty table don't collide on the email unique constraint and abort the batch
@@ -2238,9 +2184,9 @@ async function migrateMembersToSupabase() {
   }
 }
 
-async function insertMemberToSupabase(name, email, joined) {
+async function insertMemberToSupabase(name, email, joined, phone) {
   try {
-    const { data, error } = await db.from('members').insert({ name, email: email.toLowerCase(), joined }).select().single();
+    const { data, error } = await db.from('members').insert({ name, email: email.toLowerCase(), phone: phone || '', joined }).select().single();
     if (error) throw error;
     return data;
   } catch(e) {
@@ -2258,10 +2204,10 @@ async function deleteMemberFromSupabase(email) {
   }
 }
 
-async function updateMemberInSupabase(oldEmail, name, newEmail) {
+async function updateMemberInSupabase(oldEmail, name, newEmail, phone) {
   try {
     const { error } = await db.from('members')
-      .update({ name, email: newEmail.toLowerCase() })
+      .update({ name, email: newEmail.toLowerCase(), phone: phone || '' })
       .eq('email', oldEmail.toLowerCase());
     if (error) throw error;
   } catch(e) {
@@ -2383,7 +2329,7 @@ async function savePollConfig() {
 // ════════════════════════════════════════════════════════════════
 //  PASSWORDS  (change these!)
 // ════════════════════════════════════════════════════════════════
-const MEMBER_PW = "booksrule";   // shared with all members — change this!
+const MEMBER_PW = "bookbros";   // shared with all members — change this!
 const ADMIN_PW  = "organizer";  // just for you, the organizer — change this!
 
 // ════════════════════════════════════════════════════════════════
@@ -2550,15 +2496,14 @@ function renderBooks() {
                  : (currentSort === 'score-asc')  ? (n-i)
                  : (currentSort === 'date-asc')   ? (i+1)
                  : (n-i); // date-desc default
-    const nScores = (b.scores || []).filter(v => !v.skipped).length;
-    const hasScores = nScores > 0;
+    const hasScores = b.scores && b.scores.length > 0;
     return `
       <div class="book-row" onclick="_openBookByIdx(${i})" title="${hasScores ? 'Click to see individual scores' : 'Click for details'}">
         <span class="book-num">${rowNum}</span>
         <div class="book-swatch sw-${tier}"></div>
         <div class="book-info">
           <div class="book-title">${b.title}</div>
-          <div class="book-meta">${b.date}${hasScores ? ` · <span style="color:var(--pink);font-size:0.68rem;">★ ${nScores} score${nScores === 1 ? '' : 's'}</span>` : ''}</div>
+          <div class="book-meta">${b.date}${hasScores ? ` · <span style="color:var(--pink);font-size:0.68rem;">★ ${b.scores.length} scores</span>` : ''}</div>
         </div>
         <div class="book-score-col">
           ${unscored ? `<span class="score-pending">Not yet scored</span>` : `
@@ -2638,82 +2583,20 @@ function renderOrgOverview() {
     <div class="org-kpi"><b>${scores}</b><span>Scores given</span></div>
     <div class="org-kpi"><b>${MX.recs.length}</b><span>Member picks</span></div>`;
   const noReply = members.filter(x => key && getRsvp(x.email) === 'p');
-  const bcc = noReply.map(x => x.email).join(',');
+  const bcc = noReply.map(realEmail).filter(Boolean).join(',');
   const nudge = `mailto:?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent('Are you coming? ' + (m.book || 'Book club'))}&body=${encodeURIComponent(`Hi! Quick reminder to RSVP for ${m.date || 'our next meeting'}${m.location ? ' at ' + m.location : ''}.
 
-Tap Going / Maybe / Can't make it here: https://www.huntingtonvillagereaders.com/#members
+Tap Going / Maybe / Can't make it here: https://www.huntingtonbookbros.com/#members
 
 Thanks!`)}`;
   const rowsHtml = [];
   rowsHtml.push(`<div class="org-row">📅 <span><b>${escHtml(m.date || 'No date set')}</b>${m.book ? ' · ' + escHtml(m.book) : ''}${m.location ? ' · ' + escHtml(m.location) : ''}</span><button class="btn-act btn-act-outline btn-act-sm" onclick="orgGo('tab-meeting')">Edit</button><button class="btn-act btn-act-blue btn-act-sm" onclick="sendCalendarInvite()">Send invite</button></div>`);
   if (key && noReply.length) rowsHtml.push(`<div class="org-row">✉️ <span>${noReply.length} member${noReply.length === 1 ? " hasn't" : "s haven't"} RSVP'd</span><a class="btn-act btn-act-outline btn-act-sm" href="${nudge}">Nudge them</a></div>`);
-  const dupes = orgDuplicatePicks().size;
-  if (dupes) rowsHtml.push(`<div class="org-row">⚠️ <span>${dupes} picks look like duplicates</span><button class="btn-act btn-act-outline btn-act-sm" onclick="orgGo('tab-cleanup')">Clean up</button></div>`);
   if (top) rowsHtml.push(`<div class="org-row">📚 <span>Top pick: <b>${escHtml(top.title)}</b> · ♥ ${mxVoteCount(top.id)}</span><button class="btn-act btn-act-outline btn-act-sm" onclick="orgUsePick(${top.id})">Make it a meeting book</button></div>`);
   rowsHtml.push(`<div class="org-row">🗓 <span>Plan future meetings</span><button class="btn-act btn-act-outline btn-act-sm" onclick="orgGo('tab-upcoming')">Upcoming</button></div>`);
   rowsHtml.push(`<div class="org-row">👥 <span>${members.length} members</span><button class="btn-act btn-act-outline btn-act-sm" onclick="orgGo('tab-members')">Manage</button></div>`);
   document.getElementById('org-actions').innerHTML = rowsHtml.join('');
 }
-function bareTitle(t) { return (t || '').toLowerCase().replace(/^the\s+/, '').replace(/[^a-z0-9]/g, ''); }
-function orgDuplicatePicks() {
-  const seen = {}, dupes = new Set();
-  MX.recs.forEach(r => { const k = bareTitle(r.title); if (seen[k]) { dupes.add(seen[k]); dupes.add(r.id); } else seen[k] = r.id; });
-  return dupes;
-}
-function renderOrgCleanup() {
-  const el = document.getElementById('org-clean-picks');
-  if (!el) return;
-  const dupes = orgDuplicatePicks();
-  const recs = [...MX.recs].sort((a, b) => bareTitle(a.title).localeCompare(bareTitle(b.title)) || a.id - b.id);
-  el.innerHTML = recs.length ? recs.map(r => `
-    <div class="org-clean-row">
-      <div class="org-clean-main"><b><i>${escHtml(r.title)}</i></b>${r.author ? ' · ' + escHtml(r.author) : ''}
-        <div class="org-clean-sub">by ${escHtml(r.recommended_by || '—')} · ${new Date(r.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric' })} · ♥ ${mxVoteCount(r.id)}${dupes.has(r.id) ? ' · <span class="org-dupe">Possible duplicate</span>' : ''}</div></div>
-      <button class="btn-act btn-act-outline btn-act-sm" onclick="mxOpenSuggest(${r.id}, true)">Edit</button>
-      <button class="btn-act btn-act-danger btn-act-sm" onclick="mxDeleteRec(${r.id})">Delete</button>
-    </div>`).join('') : '<div class="org-clean-sub">No picks yet.</div>';
-
-  const scored = [...(DATA.books || [])].filter(b => (b.scores || []).length).sort((a, b) => bookDateRank(b.date) - bookDateRank(a.date));
-  document.getElementById('org-clean-scores').innerHTML = scored.length ? scored.map(b => `
-    <div class="org-clean-row" style="align-items:flex-start;">
-      <div class="org-clean-main"><b><i>${escHtml(b.title)}</i></b> <span class="org-clean-sub">${escHtml(b.date)} · avg ${b.rating != null ? b.rating.toFixed(2) : '—'}</span>
-        <div class="org-chips">${(b.scores || []).map(v => `<span class="org-chip">${escHtml((v.name || v.email).split(' ')[0])} ${v.skipped ? "didn't read" : v.abandoned ? 'DNF' : v.score}<button title="Remove this score" onclick="orgRemoveScore(${b.id}, '${escHtml(v.email)}')">✕</button></span>`).join('')}</div></div>
-    </div>`).join('') : '<div class="org-clean-sub">No scores yet.</div>';
-
-  const key = currentMeetingKey();
-  const answered = key ? (DATA.members || []).filter(m => getRsvp(m.email) !== 'p') : [];
-  const lbl = { g:'Going', m:'Maybe', d:"Can't" };
-  document.getElementById('org-clean-rsvps').innerHTML = !key ? '<div class="org-clean-sub">No meeting date set.</div>'
-    : answered.length ? `<div class="org-chips">${answered.map(m => `<span class="org-chip">${escHtml(m.name)} · ${lbl[getRsvp(m.email)]}<button title="Clear this RSVP" onclick="orgClearRsvp('${escHtml(m.email)}')">✕</button></span>`).join('')}</div>`
-    : '<div class="org-clean-sub">No RSVPs yet.</div>';
-}
-async function orgRemoveScore(bookId, email) {
-  const book = (DATA.books || []).find(b => b.id === bookId);
-  if (!book) return;
-  const who = ((book.scores || []).find(v => norm(v.email) === norm(email)) || {}).name || email;
-  if (!confirm(`Remove ${who}'s score for "${book.title}"?`)) return;
-  const { data: row, error: readErr } = await db.from('books').select('scores').eq('id', bookId).single();
-  if (readErr) { toast('Could not remove — try again.'); return; }
-  const scores = (row.scores || []).filter(v => norm(v.email) !== norm(email));
-  const rated  = scores.filter(v => !v.abandoned && !v.skipped && v.score != null);
-  const rating = rated.length ? Math.round(rated.reduce((s, v) => s + v.score, 0) / rated.length * 100) / 100 : null;
-  const { error } = await db.from('books').update({ scores, rating }).eq('id', bookId);
-  if (error) { toast('Could not remove — try again.'); console.warn(error.message); return; }
-  book.scores = scores; book.rating = rating;
-  renderBooks(); renderAdminBooksAll(); mxRender(); renderOrgCleanup();
-  toast('✓ Score removed');
-}
-async function orgClearRsvp(email) {
-  const key = currentMeetingKey();
-  if (!key || !confirm('Clear this RSVP?')) return;
-  const { error } = await db.from('member_rsvps').delete().eq('meeting_key', key).eq('email', norm(email));
-  if (error) { toast('Could not clear — try again.'); console.warn(error.message); return; }
-  delete _siteRsvps[norm(email)];
-  if (DATA.rsvp) delete DATA.rsvp[norm(email)];
-  renderHero(); mxRender(); renderOrgCleanup(); renderOrgOverview();
-  toast('✓ RSVP cleared');
-}
-
 function orgUsePick(id) {
   const r = MX.recs.find(x => x.id === id);
   if (!r) return;
@@ -2788,7 +2671,7 @@ function openProfileModal(idx) {
   const myEmail  = (m.email || '').toLowerCase();
   (DATA.books || []).forEach(b => {
     (b.scores || []).forEach(v => {
-      if (v.email && v.email.toLowerCase() === myEmail && !v.skipped) {
+      if (v.email && v.email.toLowerCase() === myEmail) {
         myScores.push({
           title: b.title,
           date: b.date,
@@ -2825,7 +2708,7 @@ function openProfileModal(idx) {
         return `
           <div style="display:flex;align-items:center;gap:10px;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:8px 12px;">
             <div style="flex:1;min-width:0;">
-              <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
+              <div style="font-family:'Zilla Slab',Rockwell,Georgia,serif;font-style:italic;font-size:0.92rem;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
               <div style="font-size:0.68rem;color:var(--muted);">${v.date}${diffLbl}</div>
             </div>
             ${v.abandoned ? `<span class="score-abandoned-tag">🚫 Abandoned</span>` : `
@@ -2873,7 +2756,8 @@ function openAdminProfileModal(idx) {
   document.getElementById('apm-idx').value         = idx;
   document.getElementById('apm-title').textContent = `Edit Profile — ${m.name}`;
   document.getElementById('apm-name').value        = m.name    || '';
-  document.getElementById('apm-email').value       = m.email   || '';
+  document.getElementById('apm-email').value       = realEmail(m);
+  document.getElementById('apm-phone').value       = m.phone ? prettyPhone(m.phone) : '';
   document.getElementById('apm-photo').value       = p.photo   || '';
   document.getElementById('apm-job').value         = p.job     || '';
   document.getElementById('apm-family').value      = p.family  || '';
@@ -3049,7 +2933,14 @@ async function saveAdminProfile() {
   if (isNaN(idx) || !DATA.members[idx]) return;
   const oldEmail = DATA.members[idx].email;
   const newName  = document.getElementById('apm-name').value.trim();
-  const newEmail = document.getElementById('apm-email').value.trim();
+  const typedEmail = document.getElementById('apm-email').value.trim();
+  const phoneRaw   = document.getElementById('apm-phone').value.trim();
+  const oldPhone   = DATA.members[idx].phone || '';
+  DATA.members[idx].phone = phoneRaw ? prettyPhone(phoneRaw) : '';
+  // Keep their ID unless they now have a real email (or only a phone that changed)
+  let newEmail = '';
+  if (typedEmail && typedEmail.toLowerCase() !== oldEmail.toLowerCase()) newEmail = typedEmail;
+  else if (!typedEmail && isPhoneId(oldEmail) && phoneDigits(phoneRaw).length >= 10 && phoneId(phoneRaw) !== oldEmail) newEmail = phoneId(phoneRaw);
   if (newName)  DATA.members[idx].name  = newName;
   if (newEmail) DATA.members[idx].email = newEmail;
   const profile = {
@@ -3066,8 +2957,8 @@ async function saveAdminProfile() {
   const emailToSave = newEmail || oldEmail;
   toast('Saving…');
   await saveProfileToSupabase(emailToSave, profile);
-  if (newName || newEmail) {
-    await updateMemberInSupabase(oldEmail, DATA.members[idx].name, DATA.members[idx].email);
+  if (newName || newEmail || DATA.members[idx].phone !== oldPhone) {
+    await updateMemberInSupabase(oldEmail, DATA.members[idx].name, DATA.members[idx].email, DATA.members[idx].phone);
   }
   renderPublicMembers();
   renderAdminMembers();
@@ -3085,7 +2976,7 @@ function renderAdminMembers() {
     const hasProfile = m.profile && (m.profile.job || m.profile.family || m.profile.how_heard || m.profile.fav_book || m.profile.fav_genre || m.profile.photo);
     return `<tr>
       <td>${m.name}</td>
-      <td style="color:rgba(255,255,255,.5);font-size:0.82rem;">${m.email}</td>
+      <td style="color:rgba(255,255,255,.5);font-size:0.82rem;">${[realEmail(m), m.phone ? prettyPhone(m.phone) : ''].filter(Boolean).join('<br>') || '—'}</td>
       <td style="color:rgba(255,255,255,.35);font-size:0.78rem;">${m.joined||'—'}</td>
       <td style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="btn-act btn-act-outline btn-act-sm" onclick="openAdminProfileModal(${i})" title="Edit profile">✏️ ${hasProfile ? 'Edit' : 'Add'} Profile</button>
@@ -3099,26 +2990,32 @@ function renderAdminMembers() {
 
 async function addMember() {
   const name  = document.getElementById('new-member-name').value.trim();
-  const email = document.getElementById('new-member-email').value.trim();
-  if (!name || !email) { toast('Please enter a name and email.'); return; }
+  const typedEmail = document.getElementById('new-member-email').value.trim();
+  const phoneRaw   = document.getElementById('new-member-phone').value.trim();
+  const phone      = phoneRaw ? prettyPhone(phoneRaw) : '';
+  if (!name) { toast('Please enter a name.'); return; }
+  if (!typedEmail && phoneDigits(phoneRaw).length < 10) { toast('Please enter an email or a 10-digit phone number.'); return; }
+  const email = typedEmail || phoneId(phoneRaw);
+  if (DATA.members.some(m => m.email.toLowerCase() === email.toLowerCase())) { toast(`${name} is already on the list.`); return; }
   const now = new Date().toLocaleString('en-US',{month:'short',year:'numeric'});
-  const newMember = { name, email, joined: now, profile:{...EMPTY_PROFILE} };
+  const newMember = { name, email, phone, joined: now, profile:{...EMPTY_PROFILE} };
   DATA.members.push(newMember);
   saveData();
   document.getElementById('new-member-name').value  = '';
   document.getElementById('new-member-email').value = '';
+  document.getElementById('new-member-phone').value = '';
   renderAdminMembers();
   renderPublicMembers();
   renderHero();
   toast(`✓ ${name} added to the club!`);
-  const row = await insertMemberToSupabase(name, email, now);
+  const row = await insertMemberToSupabase(name, email, now, phone);
   if (row) { newMember.id = row.id; saveData(); }
 }
 
 async function removeMember(idx) {
   const name  = DATA.members[idx].name;
   const email = DATA.members[idx].email;
-  if (!confirm(`Remove ${name} from the Huntington Village Readers?`)) return;
+  if (!confirm(`Remove ${name} from the Huntington Book Bros?`)) return;
   DATA.members.splice(idx, 1);
   saveData();
   renderAdminMembers();
@@ -3132,13 +3029,34 @@ async function removeMember(idx) {
 //  ADMIN: EMAILS
 // ════════════════════════════════════════════════════════════════
 function updateEmailList() {
-  const all = DATA.members.map(m=>m.email).join(', ');
+  const all = DATA.members.map(realEmail).filter(Boolean).join(', ');
   const el  = document.getElementById('email-list-display');
   if (el) el.value = all;
+  const ph  = document.getElementById('phone-list-display');
+  if (ph) ph.value = DATA.members.filter(m => m.phone).map(m => `${m.name}: ${prettyPhone(m.phone)}`).join('\n');
+}
+
+function textAll(type) {
+  const nums = DATA.members.filter(m => m.phone).map(m => '+1' + phoneDigits(m.phone));
+  if (!nums.length) { toast('No phone numbers yet. Add them under Members.'); return; }
+  const m = DATA.meeting;
+  const body = type === 'reminder'
+    ? `Book Bros reminder: ${m.book}${m.author ? ' by ' + m.author : ''}, ${m.date} at ${m.time}${m.location ? ', ' + m.location : ''}. RSVP at huntingtonbookbros.com`
+    : '';
+  window.location.href = `sms://open?addresses=${nums.join(',')}${body ? '&body=' + encodeURIComponent(body) : ''}`;
+}
+
+function copyAllPhones() {
+  const all = DATA.members.filter(m => m.phone).map(m => prettyPhone(m.phone)).join(', ');
+  if (!all) { toast('No phone numbers yet.'); return; }
+  navigator.clipboard.writeText(all).then(()=>toast('✓ All numbers copied!')).catch(()=>{
+    document.getElementById('phone-list-display').select();
+    toast('Select the numbers above and copy them.');
+  });
 }
 
 function emailAll(type) {
-  const bcc = DATA.members.map(m=>m.email).join(',');
+  const bcc = DATA.members.map(realEmail).filter(Boolean).join(',');
   const m   = DATA.meeting;
   let subject='', body='';
   if (type==='reminder') {
@@ -3155,7 +3073,7 @@ function emailAll(type) {
 }
 
 function copyAllEmails() {
-  const all = DATA.members.map(m=>m.email).join(', ');
+  const all = DATA.members.map(realEmail).filter(Boolean).join(', ');
   navigator.clipboard.writeText(all).then(()=>toast('✓ All emails copied to clipboard!')).catch(()=>{
     document.getElementById('email-list-display').select();
     toast('Select the text above and copy it.');
@@ -3193,7 +3111,7 @@ async function saveMeeting() {
 
 function sendCalendarInvite() {
   const m    = DATA.meeting;
-  const adds = DATA.members.map(mem=>`&add=${encodeURIComponent(mem.email)}`).join('');
+  const adds = DATA.members.filter(realEmail).map(mem=>`&add=${encodeURIComponent(mem.email)}`).join('');
   const title= encodeURIComponent(`Book Club: ${m.book} by ${m.author}`);
   const loc  = encodeURIComponent(m.location);
   const det  = encodeURIComponent(`Book Club meeting — ${m.book} by ${m.author}\n\nTime: ${m.time}\nLocation: ${m.location}`);
@@ -3248,8 +3166,6 @@ function renderAdminBooks() { renderAdminBooksAll(); }
 //  TABS
 // ════════════════════════════════════════════════════════════════
 function showTab(id, btn) {
-  if (id === 'tab-cleanup') renderOrgCleanup();
-  if (id === 'tab-overview') renderOrgOverview();
   document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -3627,7 +3543,7 @@ function openBookModal(book) {
   if (starsEl) starsEl.innerHTML = unscored ? '' : starsHtml(book.rating, '1.4rem');
 
   const scoresList = document.getElementById('bm-scores-list');
-  const scores     = (book.scores || []).filter(v => !v.skipped);  // "didn't read" isn't a score
+  const scores     = book.scores || [];
 
   if (scores.length) {
     const sorted = [...scores].sort((a,b) => (b.abandoned?-1:b.score) - (a.abandoned?-1:a.score));
@@ -3665,7 +3581,7 @@ function renderAdminBooksAll() {
     el.innerHTML = DATA.books.map((b,i) => `
       <div style="display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.06);">
         <div style="flex:1;min-width:0;">
-          <div style="color:#fff;font-size:0.88rem;font-style:italic;font-family:'Cormorant Garamond',serif;">${b.title}</div>
+          <div style="color:#fff;font-size:0.88rem;font-style:italic;font-family:'Zilla Slab',Rockwell,Georgia,serif;">${b.title}</div>
           <div style="color:rgba(255,255,255,.35);font-size:0.72rem;">${b.date}${b.scores&&b.scores.length?` · ${b.scores.length} individual score${b.scores.length>1?'s':''}`:''}</div>
         </div>
         <div style="color:rgba(255,255,255,.6);font-size:0.9rem;font-weight:600;min-width:32px;text-align:right;">${b.rating == null ? 'Not scored' : b.rating.toFixed(2)}</div>
@@ -4154,7 +4070,7 @@ function renderAdminUpcoming() {
   el.innerHTML = UPCOMING.map(u => `
     <div style="display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.06);">
       <div style="flex:1;min-width:0;">
-        <div style="color:#fff;font-size:0.88rem;font-style:italic;font-family:'Cormorant Garamond',serif;">${u.book ? escHtml(u.book) : 'Book TBD'}</div>
+        <div style="color:#fff;font-size:0.88rem;font-style:italic;font-family:'Zilla Slab',Rockwell,Georgia,serif;">${u.book ? escHtml(u.book) : 'Book TBD'}</div>
         <div style="color:rgba(255,255,255,.35);font-size:0.72rem;">${escHtml(upcomingDateLabel(u.meeting_date))}${u.location ? ' · ' + escHtml(u.location) : ''}</div>
       </div>
       <button class="btn-act btn-act-outline btn-act-sm" onclick="editUpcoming(${u.id})">Edit</button>
