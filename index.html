@@ -3251,7 +3251,7 @@ function textAll(type) {
   if (!nums.length) { toast('No phone numbers yet. Add them under Members.'); return; }
   const m = DATA.meeting;
   const body = type === 'reminder'
-    ? `Book Bros reminder: ${m.book}${m.author ? ' by ' + m.author : ''}, ${m.date} at ${m.time}${m.location ? ', ' + m.location : ''}. RSVP at huntingtonbookbros.com`
+    ? `Book Bros: ${m.book}, ${(m.date || '').split(',').slice(0, 2).join(',').split(' ').map((w, i) => i === 1 ? w.slice(0, 3) : w).join(' ')} at ${(m.time || '').replace(':00', '').replace(' PM', 'pm').replace(' AM', 'am')}${m.location ? ', ' + m.location : ''}. RSVP + add book recs: huntingtonbookbros.com`
     : '';
   window.location.href = `sms://open?addresses=${nums.join(',')}${body ? '&body=' + encodeURIComponent(body) : ''}`;
 }
