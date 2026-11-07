@@ -136,6 +136,9 @@
     .up-card.next { border-top:2px solid var(--coral); }
     .up-next-tag { display:inline-block; font-size:0.6rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:var(--coral); padding:4px 9px; position:absolute; top:10px; left:10px; }
     .up-cover { position:relative; }
+    /* ── Jon's reminder-alert button: glows after a new meeting date is saved ── */
+    @keyframes jonNudge { 0%,100% { box-shadow:0 0 0 0 rgba(141,186,122,.0); } 50% { box-shadow:0 0 0 6px rgba(141,186,122,.45); } }
+    .jon-alert-nudge { animation:jonNudge 1.2s ease-in-out 6; border-color:#8DBA7A !important; color:#fff !important; }
     /* ── Meeting comment wall ── */
     .up-talk-btn { margin-top:auto; align-self:flex-start; background:var(--pink-lt); color:var(--pink); border:0; border-radius:999px; padding:7px 13px; font:600 0.74rem 'Inter',sans-serif; cursor:pointer; }
     .up-talk-btn:hover, .up-talk-btn.on { background:var(--pink); color:#fff; }
@@ -1270,7 +1273,9 @@
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
             <button class="btn-act btn-act-blue" onclick="saveMeeting()">💾 Save & Update Homepage</button>
             <button class="btn-act btn-act-green" onclick="sendCalendarInvite()">📅 Send Calendar Invite to All</button>
+            <button class="btn-act btn-act-outline" id="jon-alert-btn" onclick="scheduleReminderAlert()">⏰ Schedule Jon's Reminder Alert</button>
           </div>
+          <p class="admin-card-sub" style="margin:12px 0 0;">Every time you save a new meeting date, tap <b>⏰ Schedule Jon's Reminder Alert</b>. Google Calendar opens with an alert for 7 PM one week before that date, Jon already invited. Just click Save. Meetings in the Upcoming tab each have their own ⏰ button too.</p>
         </div>
 
       </div>
@@ -3304,6 +3309,7 @@ function populateMeetingForm() {
 }
 
 async function saveMeeting() {
+  const _prevISO = DATA.meeting.dateISO || '';
   DATA.meeting.book     = document.getElementById('m-title').value.trim()    || DATA.meeting.book;
   DATA.meeting.author   = document.getElementById('m-author').value.trim()   || DATA.meeting.author;
   DATA.meeting.isbn     = document.getElementById('m-isbn').value.trim();
@@ -3316,7 +3322,13 @@ async function saveMeeting() {
   saveData();
   await saveMeetingToSupabase();
   renderHero();
-  toast('✓ Meeting updated on the homepage!');
+  if (DATA.meeting.dateISO && DATA.meeting.dateISO !== _prevISO) {
+    toast(`✓ Meeting saved! Now tap ⏰ Schedule Jon's Reminder Alert for the new date.`);
+    const b = document.getElementById('jon-alert-btn');
+    if (b) { b.classList.add('jon-alert-nudge'); b.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  } else {
+    toast('✓ Meeting updated on the homepage!');
+  }
 }
 
 function sendCalendarInvite() {
@@ -3331,6 +3343,46 @@ function sendCalendarInvite() {
   const url  = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${det}&location=${loc}${adds}`;
   window.open(url, '_blank');
   toast('✓ Google Calendar opened with all members added!');
+}
+
+// Who gets the "time to text the guys" alert a week before each meeting
+const REMINDER_SENDER = { name: 'Jon', email: 'jonbeuttler@gmail.com' };
+// meetingYMD: 'YYYYMMDD' of the meeting. Opens Google Calendar with an alert at 7 PM one week earlier.
+function openReminderAlert(meetingYMD, when, book) {
+  const d   = new Date(+meetingYMD.slice(0, 4), +meetingYMD.slice(4, 6) - 1, +meetingYMD.slice(6, 8) - 7);
+  const ymd = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  if (d < today && !confirm('One week before this meeting has already passed. Schedule the alert anyway?')) return;
+  const title = encodeURIComponent('📚 Book Bros: time to send the reminder text');
+  const det = encodeURIComponent(
+    `Book Bros meets ${when}${book ? ' (' + book + ')' : ''}. Time to text the guys!\n\n` +
+    'On your iPhone:\n' +
+    '1. Go to huntingtonbookbros.com\n' +
+    '2. Scroll to the very bottom and tap Organizer\n' +
+    '3. Type in the organizer password (ask Blair if you don\'t have it)\n' +
+    '4. Tap the ✉️ Email Group tab\n' +
+    '5. Scroll down to Text Everyone and tap ⏰ Text Meeting Reminder\n' +
+    '6. Messages opens with all the guys and the reminder filled in. Just hit Send. ✅\n\n' +
+    'Make sure the Next Meeting on the site shows this meeting before you send.\n\n' +
+    'If it says "Not Delivered": iPhone Settings → Apps → Messages → turn on MMS Messaging and Group Messaging, then try again.');
+  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ymd}T190000/${ymd}T191500&ctz=America/New_York&details=${det}&add=${encodeURIComponent(REMINDER_SENDER.email)}`;
+  window.open(url, '_blank');
+  const b = document.getElementById('jon-alert-btn'); if (b) b.classList.remove('jon-alert-nudge');
+  toast(`✓ Google Calendar opened. Click Save to invite ${REMINDER_SENDER.name}.`);
+}
+// From the Next Meeting tab: uses whatever meeting is saved right now
+function scheduleReminderAlert() {
+  const m   = DATA.meeting || {};
+  const iso = m.dateISO || ((typeof parseDateToISO === 'function' && parseDateToISO(m.date || '')) || {}).dateISO;
+  if (!iso) { toast('Save the next meeting date first.'); return; }
+  openReminderAlert(iso.slice(0, 8), `${m.date} at ${m.time}${m.location ? ' at ' + m.location : ''}`, m.book);
+}
+// From the Upcoming tab: one button per logged meeting
+function scheduleUpcomingAlert(id) {
+  const u = (typeof UPCOMING !== 'undefined' ? UPCOMING : []).find(x => x.id === id);
+  if (!u || !u.meeting_date) { toast('That meeting has no date yet.'); return; }
+  const when = (typeof upcomingDateLabel === 'function' ? upcomingDateLabel(u.meeting_date) : u.meeting_date) + (u.location ? ' at ' + u.location : '');
+  openReminderAlert(u.meeting_date.replace(/-/g, ''), when, u.book);
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -4436,6 +4488,7 @@ function renderAdminUpcoming() {
         <div style="color:#fff;font-size:0.88rem;font-style:italic;font-family:'Zilla Slab',Rockwell,Georgia,serif;">${u.book ? escHtml(u.book) : 'Book TBD'}</div>
         <div style="color:rgba(255,255,255,.35);font-size:0.72rem;">${escHtml(upcomingDateLabel(u.meeting_date))}${u.location ? ' · ' + escHtml(u.location) : ''}</div>
       </div>
+      <button class="btn-act btn-act-outline btn-act-sm" onclick="scheduleUpcomingAlert(${u.id})" title="Schedule Jon's reminder alert one week before">⏰ Jon alert</button>
       <button class="btn-act btn-act-outline btn-act-sm" onclick="editUpcoming(${u.id})">Edit</button>
       <button class="btn-act btn-act-danger btn-act-sm" onclick="removeUpcoming(${u.id})">✕</button>
     </div>`).join('');
