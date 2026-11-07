@@ -1473,8 +1473,8 @@
 <div class="admin-modal-overlay" id="admin-profile-modal" onclick="closeAdminProfileModal(event)">
   <div class="admin-modal-card">
     <button class="admin-modal-close" onclick="closeAdminProfileModal()">✕</button>
-    <div class="admin-modal-title" id="apm-title">Edit Profile</div>
-    <div class="admin-modal-sub">This info shows when members click on a name in the Members section.</div>
+    <div class="admin-modal-title" id="apm-title">Edit Member</div>
+    <div class="admin-modal-sub">Name, email and phone are used for invites and group texts. The profile below shows when members click a name in the Members section.</div>
     <input type="hidden" id="apm-idx" value="" />
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="fg" style="margin-bottom:0;">
@@ -1527,7 +1527,7 @@
       <input class="afi" type="text" id="apm-favgenre" placeholder="e.g. Literary fiction, thrillers..." />
     </div>
     <div style="display:flex;gap:10px;margin-top:8px;">
-      <button class="btn-act btn-act-blue" onclick="saveAdminProfile()">💾 Save Profile</button>
+      <button class="btn-act btn-act-blue" onclick="saveAdminProfile()">💾 Save</button>
       <button class="btn-act btn-act-outline" onclick="closeAdminProfileModal()">Cancel</button>
     </div>
   </div>
@@ -2964,7 +2964,7 @@ function openAdminProfileModal(idx) {
   const m = DATA.members[idx];
   const p = m.profile || {};
   document.getElementById('apm-idx').value         = idx;
-  document.getElementById('apm-title').textContent = `Edit Profile — ${m.name}`;
+  document.getElementById('apm-title').textContent = `Edit ${m.name}`;
   document.getElementById('apm-name').value        = m.name    || '';
   document.getElementById('apm-email').value       = realEmail(m);
   document.getElementById('apm-phone').value       = m.phone ? prettyPhone(m.phone) : '';
@@ -3189,7 +3189,7 @@ function renderAdminMembers() {
       <td style="color:rgba(255,255,255,.5);font-size:0.82rem;">${[realEmail(m), m.phone ? prettyPhone(m.phone) : ''].filter(Boolean).join('<br>') || '—'}</td>
       <td style="color:rgba(255,255,255,.35);font-size:0.78rem;">${m.joined||'—'}</td>
       <td style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="btn-act btn-act-outline btn-act-sm" onclick="openAdminProfileModal(${i})" title="Edit profile">✏️ ${hasProfile ? 'Edit' : 'Add'} Profile</button>
+        <button class="btn-act btn-act-outline btn-act-sm" onclick="openAdminProfileModal(${i})" title="Edit name, email, phone and profile">✏️ Edit</button>
         <button class="btn-act btn-act-danger btn-act-sm" onclick="removeMember(${i})">Remove</button>
       </td>
     </tr>`;
