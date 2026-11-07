@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Huntington Book Bros</title>
+  <title>Book Bros of Huntington</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -136,6 +136,37 @@
     .up-card.next { border-top:2px solid var(--coral); }
     .up-next-tag { display:inline-block; font-size:0.6rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:var(--coral); padding:4px 9px; position:absolute; top:10px; left:10px; }
     .up-cover { position:relative; }
+    /* ── Meeting comment wall ── */
+    .up-talk-btn { margin-top:auto; align-self:flex-start; background:var(--pink-lt); color:var(--pink); border:0; border-radius:999px; padding:7px 13px; font:600 0.74rem 'Inter',sans-serif; cursor:pointer; }
+    .up-talk-btn:hover, .up-talk-btn.on { background:var(--pink); color:#fff; }
+    .cw { margin-top:22px; background:var(--warm-white); border:1px solid var(--border); border-radius:16px; padding:22px; }
+    .cw-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:4px; }
+    .cw-title { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-size:1.35rem; color:var(--dark); }
+    .cw-title em { font-style:italic; }
+    .cw-close { background:none; border:0; color:var(--muted); font-size:1.3rem; cursor:pointer; line-height:1; padding:4px; }
+    .cw-sub { font-size:0.8rem; color:var(--muted); margin-bottom:16px; }
+    .cw-form { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
+    .cw-form textarea { width:100%; min-height:72px; resize:vertical; border:1px solid var(--border); border-radius:10px; padding:10px 12px; font:0.9rem 'Inter',sans-serif; color:var(--text); background:var(--cream); box-sizing:border-box; }
+    .cw-form textarea:focus { outline:2px solid var(--pink-lt); border-color:var(--pink); }
+    .cw-form-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .cw-as { font-size:0.76rem; color:var(--muted); display:flex; align-items:center; gap:8px; }
+    .cw-post { background:var(--pink); color:#fff; border:0; border-radius:999px; padding:8px 18px; font:600 0.8rem 'Inter',sans-serif; cursor:pointer; }
+    .cw-post:disabled { opacity:.5; cursor:default; }
+    .cw-list { display:flex; flex-direction:column; gap:14px; }
+    .cw-item { display:flex; gap:10px; }
+    .cw-item .mx-av { flex:none; }
+    .cw-bubble { flex:1; min-width:0; background:var(--cream); border-radius:4px 12px 12px 12px; padding:9px 12px; }
+    .cw-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:0.74rem; color:var(--muted); margin-bottom:3px; }
+    .cw-meta b { color:var(--dark); font-weight:600; }
+    .cw-chip { font-size:0.64rem; font-weight:700; letter-spacing:.04em; padding:2px 7px; border-radius:999px; }
+    .cw-chip.g { background:var(--green-lt); color:var(--green); }
+    .cw-chip.m { background:var(--amber-lt); color:var(--amber); }
+    .cw-chip.d { background:var(--coral-lt); color:#9A5A35; }
+    .cw-body { font-size:0.88rem; color:var(--text); line-height:1.5; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .cw-del { margin-left:auto; background:none; border:0; color:var(--muted); font-size:0.72rem; cursor:pointer; text-decoration:underline; }
+    .cw-empty, .cw-lock { font-size:0.88rem; color:var(--muted); font-style:italic; }
+    .cw-lock a { color:var(--pink); font-style:normal; font-weight:600; }
+    @media (max-width:600px) { .cw { padding:16px; } }
 
     /* ── BOOKS ── */
     .books-container { background:var(--warm-white); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
@@ -828,7 +859,7 @@
 <!-- ── NAV ── -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-logo">Huntington <span>Book Bros</span></a>
+    <a href="#" class="nav-logo"><span>Book Bros</span> of Huntington</a>
     <ul>
       <li><a href="#meeting">Next Meeting</a></li>
       <li><a href="#upcoming">Upcoming</a></li>
@@ -843,7 +874,7 @@
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-eyebrow">Long Island, New York</div>
-      <h1>Huntington<br><em>Book Bros</em></h1>
+      <h1><em>Book Bros</em><br>of Huntington</h1>
       <p class="hero-desc">A book club for bros who read in and around Huntington. We meet every month to drink, eat pie, and banter.</p>
       <div class="hero-pills">
         <div class="hero-pill"><strong id="pill-count">0</strong> books read</div>
@@ -880,6 +911,7 @@
             </div>
           </div>
           <div class="rsvp-mini" id="rsvp-row"></div>
+          <a href="#upcoming" class="up-talk-btn" style="display:inline-block;margin-top:12px;text-decoration:none;" onclick="cwJumpToNext(event)">💬 Comment wall</a>
         </div>
       </div>
     </div>
@@ -896,6 +928,7 @@
         <div class="section-rule"></div>
       </div>
       <div class="upcoming-grid" id="upcoming-grid"></div>
+      <div class="cw" id="comment-wall" style="display:none;"></div>
     </div>
   </div>
 </div>
@@ -1549,7 +1582,7 @@
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div><strong>Huntington Book Bros</strong></div>
+  <div><strong>Book Bros of Huntington</strong></div>
   <div>Huntington · Long Island · <a href="#" class="org-link" onclick="openOrganizer(event)">Organizer</a></div>
 </footer>
 
@@ -1735,12 +1768,15 @@ const BOOK_AUTHORS = {
   'this story might save your life':'Tiffany Crum', 'heartwood':'Amity Gaige', 'homeschooled':'', 'theo of golden':'Allen Levi',
   'the strange case of jane o.':'Karen Thompson Walker', 'my friends':'Fredrik Backman', 'book lovers':'Emily Henry',
   'the blue sisters':'Coco Mellors', 'my brilliant friend':'Elena Ferrante', 'the frozen river':'Ariel Lawhon',
-  'the lost bookshop':'Evie Woods', 'the god of the woods':'Liz Moore', 'this time tomorrow':'Emma Straub'
+  'the lost bookshop':'Evie Woods', 'the god of the woods':'Liz Moore', 'this time tomorrow':'Emma Straub',
+  'wreck':'Catherine Newman'
 };
 // Covers Open Library doesn't have — keyed by title with spaces/punctuation stripped (see bareTitle)
 const COVER_OVERRIDES = {
   'dogsboysandotherthingsivecriedabout': 'https://images-us.bookshop.org/ingram/9780063451070.jpg',
-  'dogsboysandotherthingivecriedabout':  'https://images-us.bookshop.org/ingram/9780063451070.jpg'
+  'dogsboysandotherthingivecriedabout':  'https://images-us.bookshop.org/ingram/9780063451070.jpg',
+  'lovelydarkdeepstories':               'https://images-us.bookshop.org/ingram/9780062356963.jpg',
+  'lovelydarkdeep':                      'https://images-us.bookshop.org/ingram/9780062356963.jpg'
 };
 let _coverCache = {};
 try { _coverCache = JSON.parse(localStorage.getItem('hvr-covers-v2') || '{}'); } catch(e) {}
@@ -1795,6 +1831,7 @@ function mxToScore() { return scoreEntries().filter(e => !mxMine(e)); }
 // ── Render everything ───────────────────────────────────────────
 function mxRender() {
   if (!memberUnlocked()) return;
+  cwRender();
   const me = mxMe();
   document.getElementById('mx-who').style.display = me ? 'none' : '';
   document.getElementById('mx-app').style.display = me ? '' : 'none';
@@ -2656,6 +2693,8 @@ async function checkMemberPw() {
     renderPublicPoll();
     renderPublicScoring();
     mxRender();
+    _cwCountsLoaded = false; renderUpcoming();
+    if (_cwOpenKey) cwLoad(_cwOpenKey);
   } else {
     document.getElementById('pw-err').style.display = 'block';
     document.getElementById('pw-input').value = '';
@@ -3186,7 +3225,7 @@ async function addMember() {
 async function removeMember(idx) {
   const name  = DATA.members[idx].name;
   const email = DATA.members[idx].email;
-  if (!confirm(`Remove ${name} from the Huntington Book Bros?`)) return;
+  if (!confirm(`Remove ${name} from the Book Bros of Huntington?`)) return;
   DATA.members.splice(idx, 1);
   saveData();
   renderAdminMembers();
@@ -4219,8 +4258,13 @@ function renderUpcoming() {
       isNext: true
     });
   }
+  items.forEach(u => { if (u.meeting_date === nextDate) u.isNext = true; });
+  _cwItems = items;
   wrap.style.display = items.length ? '' : 'none';
   grid.innerHTML = items.map(u => {
+    const key = u.meeting_date.replace(/-/g, '');
+    const n = _cwCounts[key] || 0;
+    const talk = `<button class="up-talk-btn${_cwOpenKey === key ? ' on' : ''}" onclick="cwToggle('${key}')">💬 ${n ? n + (n === 1 ? ' comment' : ' comments') : 'Discuss'}</button>`;
     const cover = u.cover_url
       ? `<img src="${escHtml(u.cover_url)}" alt="${escHtml(u.book)} cover" onerror="this.parentNode.innerHTML='<div class=&quot;up-cover-tbd&quot;><span>Cover</span><strong>…</strong></div>'" />`
       : `<div class="up-cover-tbd"><span>Book</span><strong>TBD</strong></div>`;
@@ -4232,8 +4276,154 @@ function renderUpcoming() {
           <div class="up-title${u.book ? '' : ' tbd'}">${u.book ? escHtml(u.book) : 'Book to be announced'}</div>
           <div class="up-meta">${u.author ? 'by ' + escHtml(u.author) : ''}${u.author && u.location ? '<br>' : ''}${u.location ? '📍 ' + escHtml(u.location) : ''}</div>
         </div>
+        ${talk}
       </div>`;
   }).join('');
+  if (!_cwCountsLoaded) cwLoadCounts();
+  // Open the next meeting's wall by default so people see it without hunting for the button
+  if (!_cwAutoOpened && items.length) {
+    _cwAutoOpened = true;
+    const next = items.find(u => u.isNext) || items[0];
+    _cwOpenKey = next.meeting_date.replace(/-/g, '');
+    grid.querySelectorAll('.up-talk-btn').forEach(b => b.classList.toggle('on', b.getAttribute('onclick') === `cwToggle('${_cwOpenKey}')`));
+    cwRender();
+    cwLoad(_cwOpenKey);
+    return;
+  }
+  cwRender();
+}
+
+function cwJumpToNext(e) {
+  e.preventDefault();
+  if (!_cwOpenKey && _cwItems.length) {
+    const next = _cwItems.find(u => u.isNext) || _cwItems[0];
+    _cwOpenKey = next.meeting_date.replace(/-/g, '');
+    renderUpcoming();
+    cwLoad(_cwOpenKey);
+  }
+  const el = document.getElementById(_cwOpenKey ? 'comment-wall' : 'upcoming');
+  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior:'smooth' });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  MEETING COMMENT WALL (table: meeting_comments — see meeting-comments.sql)
+//  Members-only: comments are read and posted after the member password + "who are you?"
+// ════════════════════════════════════════════════════════════════
+let _cwItems = [], _cwCounts = {}, _cwCountsLoaded = false, _cwOpenKey = '', _cwComments = [], _cwRsvps = {}, _cwLoading = false, _cwAutoOpened = false;
+
+async function cwLoadCounts() {
+  _cwCountsLoaded = true;
+  if (!memberUnlocked()) return;
+  try {
+    const { data, error } = await db.from('meeting_comments').select('meeting_key');
+    if (error) throw error;
+    _cwCounts = {};
+    (data || []).forEach(r => { _cwCounts[r.meeting_key] = (_cwCounts[r.meeting_key] || 0) + 1; });
+    renderUpcoming();
+  } catch(e) { console.warn('Comments table not ready (run meeting-comments.sql):', e.message); }
+}
+
+async function cwToggle(key) {
+  _cwOpenKey = _cwOpenKey === key ? '' : key;
+  renderUpcoming();
+  if (_cwOpenKey) {
+    await cwLoad(key);
+    document.getElementById('comment-wall').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+}
+
+async function cwLoad(key) {
+  if (!memberUnlocked()) { cwRender(); return; }
+  _cwLoading = true; _cwComments = []; cwRender();
+  try {
+    const [c, r] = await Promise.all([
+      db.from('meeting_comments').select('*').eq('meeting_key', key).order('created_at', { ascending: true }),
+      db.from('member_rsvps').select('email,status').eq('meeting_key', key)
+    ]);
+    if (c.error) throw c.error;
+    _cwComments = c.data || [];
+    _cwRsvps = {};
+    (r.data || []).forEach(x => { _cwRsvps[norm(x.email)] = x.status; });
+    _cwCounts[key] = _cwComments.length;
+  } catch(e) {
+    console.warn('Could not load comments:', e.message);
+    toast('Comments aren’t set up yet.');
+  }
+  _cwLoading = false;
+  renderUpcoming();
+}
+
+function cwRender() {
+  const el = document.getElementById('comment-wall');
+  if (!el) return;
+  const u = _cwItems.find(x => x.meeting_date.replace(/-/g, '') === _cwOpenKey);
+  if (!u) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  el.style.display = '';
+  const head = `
+    <div class="cw-head">
+      <div class="cw-title">Talk about ${u.book ? `<em>${escHtml(u.book)}</em>` : 'this meeting'}</div>
+      <button class="cw-close" onclick="cwToggle('${_cwOpenKey}')" aria-label="Close comments">×</button>
+    </div>
+    <div class="cw-sub">${escHtml(upcomingDateLabel(u.meeting_date))} · Share thoughts on the book, or let everyone know if you’re coming.</div>`;
+  if (!memberUnlocked()) {
+    el.innerHTML = head + `<div class="cw-lock">The comment wall is for members. <a href="#members">Enter the members password</a> to read and join the conversation.</div>`;
+    return;
+  }
+  const me = mxMe();
+  const form = me ? `
+    <form class="cw-form" onsubmit="cwPost(event)">
+      <textarea id="cw-text" maxlength="2000" placeholder="What did you think? Or: why you are / aren’t coming…" required></textarea>
+      <div class="cw-form-row">
+        <span class="cw-as">${mxAvatar(me, 'xs')} Posting as ${escHtml(me.name)}</span>
+        <button class="cw-post" id="cw-post-btn" type="submit">Post</button>
+      </div>
+    </form>` : `<div class="cw-lock" style="margin-bottom:16px;"><a href="#members">Pick your name in Members</a> to post a comment.</div>`;
+  const label = { g:'Going', m:'Maybe', d:'Can’t make it' };
+  const list = _cwLoading ? `<div class="cw-empty">Loading…</div>`
+    : !_cwComments.length ? `<div class="cw-empty">No comments yet — start the conversation!</div>`
+    : _cwComments.map(c => {
+        const m = (DATA.members || []).find(x => norm(x.email) === norm(c.email)) || { name: c.name || 'Member', email: c.email };
+        const st = _cwRsvps[norm(c.email)];
+        const when = new Date(c.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric' });
+        const mine = me && norm(me.email) === norm(c.email);
+        return `<div class="cw-item">${mxAvatar(m)}
+          <div class="cw-bubble">
+            <div class="cw-meta"><b>${escHtml(m.name)}</b>${st && label[st] ? `<span class="cw-chip ${st}">${label[st]}</span>` : ''}<span>${escHtml(when)}</span>${mine ? `<button class="cw-del" onclick="cwDelete(${Number(c.id)})">Delete</button>` : ''}</div>
+            <div class="cw-body">${escHtml(c.body)}</div>
+          </div></div>`;
+      }).join('');
+  el.innerHTML = head + form + `<div class="cw-list">${list}</div>`;
+}
+
+async function cwPost(e) {
+  e.preventDefault();
+  const me = mxMe();
+  const ta = document.getElementById('cw-text');
+  const text = (ta.value || '').trim();
+  if (!me || !text || !_cwOpenKey) return;
+  const btn = document.getElementById('cw-post-btn');
+  btn.disabled = true;
+  try {
+    const { error } = await db.from('meeting_comments').insert({ meeting_key: _cwOpenKey, email: norm(me.email), name: me.name, body: text.slice(0, 2000) });
+    if (error) throw error;
+    await cwLoad(_cwOpenKey);
+    toast('Comment posted 💬');
+  } catch(err) {
+    console.warn('Could not post comment:', err.message);
+    toast('Could not post — please try again.');
+    btn.disabled = false;
+  }
+}
+
+async function cwDelete(id) {
+  if (!confirm('Delete your comment?')) return;
+  const me = mxMe();
+  if (!me) return;
+  try {
+    const { error } = await db.from('meeting_comments').delete().eq('id', id).eq('email', norm(me.email));
+    if (error) throw error;
+    await cwLoad(_cwOpenKey);
+  } catch(err) { toast('Could not delete — please try again.'); }
 }
 
 function renderAdminUpcoming() {
