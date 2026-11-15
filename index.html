@@ -697,6 +697,32 @@
     .mx-stack .mx-av { width:30px; height:30px; font-size:0.55rem; margin-left:-9px; }
     .mx-stack .mx-av:first-child { margin-left:0; }
     .mx-stack small { font-size:0.8rem; color:var(--muted); margin-left:10px; }
+    /* ── Who's coming (names by RSVP on the Next meeting card + People tab) ── */
+    .mx-att { margin-top:20px; border-top:1px solid var(--border); padding-top:16px; }
+    .mx-att-head { display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; }
+    .mx-att-head b { font-family:'Zilla Slab',Rockwell,Georgia,serif; font-weight:600; font-size:1.15rem; color:var(--dark); }
+    .mx-att-head span { font-size:0.78rem; color:var(--muted); font-variant-numeric:tabular-nums; }
+    .mx-att-bar { display:flex; height:8px; margin:10px 0 16px; background:var(--blush); overflow:hidden; }
+    .mx-att-bar i { display:block; height:100%; }
+    .mx-att-grp { margin-bottom:14px; }
+    .mx-att-grp:last-child { margin-bottom:0; }
+    .mx-att-title { display:flex; align-items:center; gap:8px; font-size:0.66rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--dark); margin-bottom:8px; }
+    .mx-att-title .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .mx-att-title .n { color:var(--muted); font-variant-numeric:tabular-nums; }
+    .mx-att-chips { display:flex; flex-wrap:wrap; gap:6px; }
+    .mx-att-chip { display:inline-flex; align-items:center; gap:7px; padding:3px 11px 3px 3px; border-radius:30px; font-family:'Inter',sans-serif; font-size:0.82rem; border:1px solid var(--border); background:#fff; color:var(--text); cursor:pointer; }
+    .mx-att-chip .mx-av { width:26px; height:26px; font-size:0.5rem; border-width:0; }
+    .mx-att-chip.me { border-color:var(--dark); font-weight:600; }
+    .mx-att-grp.g .mx-att-chip { background:#E7F4EC; border-color:#BFE0CC; }
+    .mx-att-grp.m .mx-att-chip { background:var(--coral-lt); }
+    .mx-att-grp.d .mx-att-chip, .mx-att-grp.p .mx-att-chip { color:var(--muted); }
+    .mx-att-grp.d .mx-av, .mx-att-grp.p .mx-av, .mx-psec.d .mx-av, .mx-psec.p .mx-av { filter:grayscale(1); opacity:.6; }
+    .mx-att-empty { font-size:0.8rem; color:var(--muted); font-style:italic; }
+    .mx-psec { margin-top:22px; }
+    .mx-psec:first-child { margin-top:0; }
+    .mx-psec h5 { display:flex; align-items:center; gap:8px; margin:0 0 14px; padding-bottom:6px; border-bottom:1px solid var(--border); font-size:0.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--dark); }
+    .mx-psec h5 .dot { width:10px; height:10px; border-radius:50%; }
+    .mx-psec h5 .n { color:var(--muted); }
     .mx-todo { padding:4px 18px; }
     .mx-todo-row { display:flex; align-items:center; gap:12px; width:100%; padding:14px 0; background:none; border:none; border-bottom:1px solid var(--border); font-family:'Inter',sans-serif; font-size:0.9rem; color:var(--text); text-align:left; cursor:pointer; }
     .mx-todo-row:last-child { border-bottom:none; }
@@ -1112,7 +1138,6 @@
           <!-- PEOPLE -->
           <div class="mx-panel" id="mx-panel-people">
             <div class="mx-label mx-label-row"><span>Our members</span><span id="mx-people-count"></span></div>
-            <div class="mx-legend"><span><b class="b-g"></b>Going</span><span><b class="b-m"></b>Maybe</span><span><b class="b-d"></b>Can't make it</span><span><b class="b-p"></b>No reply</span></div>
             <div class="mx-people" id="mx-people"></div>
             <p class="mx-hint">Tap anyone to see their profile and the scores they've given.</p>
           </div>
@@ -1868,9 +1893,7 @@ function mxRenderHome() {
   const st = key ? getRsvp(me.email) : 'p';
   const days = mxDaysUntil(m.dateISO);
   const when = days == null ? '' : days < 0 ? '' : days === 0 ? ' · today!' : days === 1 ? ' · tomorrow' : ` · in ${days} days`;
-  const going = (DATA.members || []).filter(x => getRsvp(x.email) === 'g');
-  const maybe = (DATA.members || []).filter(x => getRsvp(x.email) === 'm').length;
-  const btn = (s, label) => `<button class="${st === s ? 'on-' + s : ''}" onclick="mxRsvp('${s}')">${label}</button>`;
+  const btn =(s, label) => `<button class="${st === s ? 'on-' + s : ''}" onclick="mxRsvp('${s}')">${label}</button>`;
   document.getElementById('mx-meeting').innerHTML = `
     <div class="mx-label">Next meeting${when}</div>
     <div class="mx-meet">
@@ -1882,7 +1905,7 @@ function mxRenderHome() {
     </div>
     ${key ? `
     <div class="mx-seg">${btn('g', '✓ Going')}${btn('m', 'Maybe')}${btn('d', "Can't make it")}</div>
-    <div class="mx-stack">${going.slice(0, 6).map(x => mxAvatar(x)).join('')}<small>${going.length ? `${going.length} going${maybe ? ' · ' + maybe + ' maybe' : ''}` : 'Be the first to RSVP!'}</small></div>` : ''}`;
+    ${mxWhosComing(me)}` : ''}`;
 
   // To-do list
   const left = mxToScore().length;
@@ -2198,18 +2221,57 @@ async function mxDeleteRec(id) {
   renderOrgCleanup(); renderOrgOverview();
 }
 
+// ── WHO'S COMING ────────────────────────────────────────────────
+// Members sorted into Going / Maybe / Can't make it / No reply (you first, then A–Z).
+const MX_RSVP_LABEL = { g:'Going', m:'Maybe', d:"Can't make it", p:'No reply' };
+function mxByRsvp(me) {
+  const myEmail = me ? norm(me.email) : '';
+  const groups = { g:[], m:[], d:[], p:[] };
+  (DATA.members || []).forEach((m, i) => (groups[getRsvp(m.email)] || groups.p).push({ m, i }));
+  Object.values(groups).forEach(list => list.sort((a, b) =>
+    (norm(a.m.email) === myEmail ? -1 : norm(b.m.email) === myEmail ? 1 : a.m.name.localeCompare(b.m.name))));
+  return groups;
+}
+function mxWhosComing(me) {
+  const groups = mxByRsvp(me);
+  const total = (DATA.members || []).length || 1;
+  const replied = groups.g.length + groups.m.length + groups.d.length;
+  const myEmail = me ? norm(me.email) : '';
+  const pct = st => (groups[st].length / total * 100) + '%';
+  const grp = st => `<div class="mx-att-grp ${st}">
+      <div class="mx-att-title"><span class="dot b-${st}"></span>${MX_RSVP_LABEL[st]} <span class="n">${groups[st].length}</span></div>
+      ${groups[st].length
+        ? `<div class="mx-att-chips">${groups[st].map(({ m, i }) => {
+            const mine = norm(m.email) === myEmail;
+            return `<button class="mx-att-chip${mine ? ' me' : ''}" onclick="openProfileModal(${i})">${mxAvatar(m)}${escHtml(mxFirst(m))}${mine ? ' (you)' : ''}</button>`;
+          }).join('')}</div>`
+        : `<div class="mx-att-empty">Nobody yet</div>`}</div>`;
+  return `<div class="mx-att">
+    <div class="mx-att-head"><b>Who's coming</b><span>${replied} of ${(DATA.members || []).length} replied</span></div>
+    <div class="mx-att-bar" role="img" aria-label="${groups.g.length} going, ${groups.m.length} maybe, ${groups.d.length} can't make it, ${groups.p.length} no reply">
+      <i class="b-g" style="width:${pct('g')}"></i><i class="b-m" style="width:${pct('m')}"></i><i class="b-d" style="width:${pct('d')}"></i></div>
+    ${grp('g')}${grp('m')}${grp('d')}${grp('p')}</div>`;
+}
+
 // ── PEOPLE ──────────────────────────────────────────────────────
 function mxRenderPeople() {
   const key = currentMeetingKey();
-  const icon = { g:'✓', m:'~', d:'✕', p:'' };
-  const list = (DATA.members || []).map((m, i) => ({ m, i })).sort((a, b) => a.m.name.localeCompare(b.m.name));
-  document.getElementById('mx-people-count').textContent = `${list.length} members`;
-  document.getElementById('mx-people').innerHTML = list.map(({ m, i }) => {
-    const st = key ? getRsvp(m.email) : 'p';
-    return `<button class="mx-person" onclick="openProfileModal(${i})">
-      <span class="mx-person-av">${mxAvatar(m, 'lg')}${key ? `<span class="mx-badge b-${st}">${icon[st]}</span>` : ''}</span>
+  const person = ({ m, i }) => `<button class="mx-person" onclick="openProfileModal(${i})">
+      <span class="mx-person-av">${mxAvatar(m, 'lg')}</span>
       <small>${escHtml(mxFirst(m))}</small></button>`;
-  }).join('');
+  const all = (DATA.members || []).map((m, i) => ({ m, i }));
+  document.getElementById('mx-people-count').textContent = `${all.length} members`;
+  const box = document.getElementById('mx-people');
+  if (!key) {  // no meeting date yet: plain A–Z list
+    box.className = 'mx-people';
+    box.innerHTML = all.sort((a, b) => a.m.name.localeCompare(b.m.name)).map(person).join('');
+    return;
+  }
+  const groups = mxByRsvp(mxMe());
+  box.className = '';
+  box.innerHTML = ['g', 'm', 'd', 'p'].filter(st => groups[st].length).map(st => `<div class="mx-psec ${st}">
+      <h5><span class="dot b-${st}"></span>${MX_RSVP_LABEL[st]} <span class="n">${groups[st].length}</span></h5>
+      <div class="mx-people">${groups[st].map(person).join('')}</div></div>`).join('');
 }
 
 // Keep things fresh while the page is open (others' scores, RSVPs and picks appear within ~20s)
