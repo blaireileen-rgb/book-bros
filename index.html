@@ -878,6 +878,24 @@
     .hero-cta { background:var(--pink); }
     .hero-cta:hover { background:var(--coral); }
     .hero-book-card { box-shadow:0 18px 50px rgba(0,0,0,.45); }
+    /* ── Logos at the top: black-on-white art shown as white line art on the dark hero ── */
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    /* Computers: crest leads at top left, anchor is a seal under the Next Meeting card.
+       Phones: anchor sits under the crest instead. */
+    .hero-logos { display:flex; flex-direction:column; align-items:flex-start; gap:14px; margin:0 0 20px; }
+    .hero-logos img, .hero-published { display:block; height:auto; max-width:100%; filter:invert(1); mix-blend-mode:screen; opacity:.92; }
+    .hero:has(.hero-logos) { padding-top:36px; }
+    .hero:has(.hero-logos) .hero-inner { align-items:start; }
+    .hero-crest { width:clamp(200px,22vw,260px); margin-left:-6px; }
+    .hero-published { width:96px; }
+    .hero-published-desk { opacity:.8; }
+    .hero-logos .hero-published-phone { display:none; }
+    @media (max-width:760px) {
+      .hero-logos { align-items:center; }
+      .hero-crest { width:190px; margin-left:0; }
+      .hero-logos .hero-published-phone { display:block; }
+      .hero-published-desk { display:none; }
+    }
     .up-cover-tbd, .cover-fallback { color:#E6EAE4; }
     footer { background:var(--dark); color:rgba(255,255,255,.6); }
     footer strong { color:#F2F4EF; font-weight:600; }
@@ -902,8 +920,12 @@
 <div class="hero" id="meeting">
   <div class="hero-inner">
     <div class="hero-text">
+      <h1 class="sr-only">Book Bros of Huntington</h1>
+      <div class="hero-logos">
+        <img class="hero-crest" src="images/book-bros-crest.png" alt="Book Bros Huntington crest: Libri ad Robur" width="687" height="687" />
+        <img class="hero-published hero-published-phone" src="images/exclusively-at-published.png" alt="Exclusively at Published" width="500" height="576" />
+      </div>
       <div class="hero-eyebrow">Long Island, New York</div>
-      <h1><em>Book Bros</em><br>of Huntington</h1>
       <p class="hero-desc">A book club for bros who read in and around Huntington. We meet every month to drink, eat pie, and banter.</p>
       <div class="hero-pills">
         <div class="hero-pill"><strong id="pill-count">0</strong> books read</div>
@@ -943,6 +965,7 @@
           <a href="#upcoming" class="up-talk-btn" style="display:inline-block;margin-top:12px;text-decoration:none;" onclick="cwJumpToNext(event)">💬 Comment wall</a>
         </div>
       </div>
+      <img class="hero-published hero-published-desk" src="images/exclusively-at-published.png" alt="Exclusively at Published" width="500" height="576" />
     </div>
   </div>
 </div>
